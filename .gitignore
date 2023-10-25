@@ -1,0 +1,5 @@
+node_modules
+comands
+client/.env
+client/.gitignore
+.env
