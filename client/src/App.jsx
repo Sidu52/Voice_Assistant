@@ -1,15 +1,12 @@
 // App.js
 import React from 'react';
-import VoiceCommands from './component/VoiceCommands';
 import VoiceAssistant from './component/VoiceAssistant';
-import Apitexter from './component/Api texter';
+
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{ height: "100vh", backgroundColor: "#000" }}>
       <VoiceAssistant />
-      {/* <VoiceCommands /> */}
-      {/* <Apitexter /> */}
     </div>
   );
 }

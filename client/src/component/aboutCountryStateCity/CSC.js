@@ -1,5 +1,5 @@
 import axios from 'axios';
-import speakText from '../text_to_speack/speaktext';
+import { speakText } from '../text_to_speack/speaktext';
 const tellCountry = async (name) => {
     try {
         const countryDetail = await axios.get(`https://api.countrystatecity.in/v1/countries/${name}`, {

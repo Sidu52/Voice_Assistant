@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import annyang from 'annyang';
 import axios from 'axios';
-import speakText from './text_to_speack/speaktext';
+import { FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
+import { speakText } from './text_to_speack/speaktext';
 import { Country, State, City } from 'country-state-city';
 import { tellCountry, tellState, tellCity, tellCapital, tellPopulation } from './aboutCountryStateCity/CSC';
 import { cityWeather } from './api/weatherAPi'
 import tellJoke from './api/telljoke';
-import MainPage from '../view/mainPage';
-import Speaking from '../view/Speaking';
+import { URL } from '../../endpointURL';
+import youtube from './api/youtubeAPI';
 
 const VoiceAssistant = () => {
     const [listening, setListening] = useState(false);
-    // const [Speak, setSpeak] = useState(false);
+    const [Speak, setSpeak] = useState(false);
+    const [videoURL, setVideoURL] = useState("");
+
+
     const commands = {
         'Good morning *name': () => speakText('Hy Boss Good morning'),
         'Good afternoon *name': () => speakText('Hy Boss Good afternoon'),
         'Good evening *name': () => speakText('Hy Boss Good evening'),
         'Goodbye *name': () => speakText('Goodbye, have a great day!'),
-        'What is your name': () => speakText('My name is Jarvis pandit'),
+        'What is your name': () => speakText('My name is Jarvis'),
         'Tell me about yourself': () => speakText('I am a voice assistant Sidhu Alston created me.'),
         'Tell me about you': () => speakText('I am a voice assistant Sidhu Alston created me.'),
         'Who are you': () => speakText('I am a voice assistant Sidhu Alston created me.'),
@@ -42,7 +46,6 @@ const VoiceAssistant = () => {
                     if (!isUserInputInCommands(phrases[0])) {
                         findCategory(phrases[0]);
                     }
-
                 });
                 annyang.start();
             } else {
@@ -56,6 +59,11 @@ const VoiceAssistant = () => {
             annyang.removeCallback('result');
         };
     }, [listening]);
+
+    const handleClick = async () => {
+        setListening(!listening);
+    }
+
     const isUserInputInCommands = (userInput) => {
         return Object.keys(commands).some(command => {
             const commandWithoutWildcards = command.replace(/\*\w+/g, '').trim();
@@ -78,7 +86,9 @@ const VoiceAssistant = () => {
     const findCategory = async (userInput) => {
         // if userInput not avaiable in cmmmands array that it  tun
         try {
-            const { data } = await axios.post("http://localhost:8000/findfunction", { userInput });
+            // const { data } = await axios.post(import.meta.env.VITE_VITE_ENDPOINT_URL, { userInput });
+            const { data } = await axios.post(`${URL}/findfunction`, { userInput });
+
             let CSCname = ""
             const inputArray = userInput.split(" ");
             // Initialize an array to store the substrings
@@ -130,6 +140,9 @@ const VoiceAssistant = () => {
                         return cityWeather(city.name);
                     }
                 }
+            } else if (data.data == "play_youtube") {
+                const data = await youtube(userInput);
+                setVideoURL(`https://www.youtube.com/embed/${data}?autoplay=1`)
             } else if (data.data == "speak_joke") {
                 tellJoke();
             } else if (data.data == "family_info") {
@@ -155,19 +168,30 @@ const VoiceAssistant = () => {
 
 
     return (
-        <div style={{ position: "absolute", top: "50%", left: "30%", display: "flex" }}>
-            {listening ? <MainPage /> : null}
-            {/* {listening && Speak ? <Speaking /> : null} */}
+        <>
+            <iframe width="560" height="315" src={videoURL} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+            <div className="home_container">
+                <div className="mic" onClick={handleClick}>
+                    {listening ? <FaMicrophone /> : <FaMicrophoneSlash style={{ color: "red" }} />}
+                </div>
+                <div className="container" style={{ animationIterationCount: listening ? "infinite" : "" }}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div className="loading" >
+                    <span style={{ animationIterationCount: Speak ? "infinite" : "" }}></span>
+                    <span style={{ animationIterationCount: Speak ? "infinite" : "" }}></span>
+                    <span style={{ animationIterationCount: Speak ? "infinite" : "" }}></span>
+                    <span style={{ animationIterationCount: Speak ? "infinite" : "" }}></span>
+                    <span style={{ animationIterationCount: Speak ? "infinite" : "" }}></span>
+                </div>
 
-            <div>
-                <h1>Voice Command</h1>
-                <p>The application is {listening ? 'listening' : 'not listening'}.</p>
-                <button onClick={() => setListening(!listening)}>
-                    {listening ? 'Stop Listening' : 'Start Listening'}
-                </button>
             </div>
+        </>
 
-        </div >
+
     );
 };
 
