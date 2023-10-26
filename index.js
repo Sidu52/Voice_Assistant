@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const { exec } = require('child_process');
+const os = require('os');
 const app = express();
 const PORT = 8000;
 const cors = require("cors");
@@ -66,16 +67,26 @@ async function executeCommand(userInput) {
 
     if (intent === 'open' && entity) {
         const softwareCommands = {
-            skype: 'start skype',
-            notepad: 'start notepad.exe',
-            chrome: 'start chrome',
-            edge: 'start msedge',
-            calculator: 'start calc',
-            camera: 'start microsoft.windows.camera:',
-            alarms: 'start ms-clock:',
+            skype: 'start skype',//Skype
+            notepad: 'start notepad.exe',//notepad
+            chrome: 'start chrome',//chrome
+            edge: 'start msedge',//edge
+            calculator: 'start calc',//calculator
+            camera: 'start microsoft.windows.camera:',// camera
+            alarms: 'start ms-clock:',//Clock
+            mail: 'start outlook', // Mail
+            filemanager: 'start explorer', // File manager
+            word: 'start winword', // Microsoft Word
+            excel: 'start excel', // Microsoft Excel
+            powerpoint: 'start powerpnt', //Microsoft PowerPoint
+            vlc: 'start vlc', // VLC media player
+            photoshop: 'start photoshop', // Adobe Photoshop
+            acrobat: 'start acrobat', // Adobe Acrobat Reader
+            vscode: 'start code', //Visual Studio Code
+            terminal: 'start cmd', //command prompt
+            cmd: 'start cmd', //command prompt
         };
-
-        const softwareCommand = softwareCommands[entity];
+        const softwareCommand = softwareCommands[entity.toLowerCase()];
         return softwareCommand;
     }
 }
@@ -110,19 +121,39 @@ async function saveUniqueString(inputString) {
         console.error('Error saving UniqueString to the database:', error);
     }
 }
-
-// Define a function to launch software
-async function openSoftware(webname) {
-    console.log(webname)
-    const softwareCommand = `start ${webname}.exe`;
-
-    exec(softwareCommand, (error) => {
-        if (error) {
-            console.error(`Error: ${error}`);
-            return;
-        }
-        return;
-    });
+async function openSoftware(command) {
+    const platform = os.platform(); // Get the user's operating system platform
+    switch (platform) {
+        case 'win32':
+        case 'win64':
+            const softwareCommand = `start ${command}.exe`;
+            exec(softwareCommand, (error) => {
+                if (error) {
+                    console.error(`Error: ${error}`);
+                }
+            });
+            break;
+        case 'linux':
+        case 'darwin':
+            const shellCommand = command;
+            exec(shellCommand, (error) => {
+                if (error) {
+                    console.error(`Error: ${error}`);
+                }
+            });
+            break;
+        case 'android':
+            const adbCommand = `adb shell ${command}`;
+            exec(adbCommand, (error) => {
+                if (error) {
+                    console.error(`Error: ${error}`);
+                }
+            });
+            break;
+        default:
+            console.error('Unsupported operating system:', platform);
+            break;
+    }
 }
 
 app.post('/findfunction', async (req, res) => {

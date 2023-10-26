@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import annyang from 'annyang';
 import axios from 'axios';
+import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
 import { speakText } from './text_to_speack/speaktext';
 import { Country, State, City } from 'country-state-city';
@@ -11,6 +12,7 @@ import { URL } from '../../endpointURL';
 import youtube from './api/youtubeAPI';
 
 const VoiceAssistant = () => {
+    const [iframeVisible, setIframeVisible] = useState(false);
     const [listening, setListening] = useState(false);
     const [Speak, setSpeak] = useState(false);
     const [videoURL, setVideoURL] = useState("");
@@ -60,6 +62,10 @@ const VoiceAssistant = () => {
         };
     }, [listening]);
 
+    const closeIframe = () => {
+        setIframeVisible(false);
+    };
+
     const handleClick = async () => {
         setListening(!listening);
     }
@@ -101,10 +107,10 @@ const VoiceAssistant = () => {
                 }
             }
             if (data.data == "Hello") {
-                speakText("Helo Boss, How may I help you")
+                await speakText("Helo Boss, How may I help you")
             }
             else if (data.data == "Aboutyou") {
-                speakText("I'm good Boss. I am always ready for you any conddition")
+                await speakText("I'm good Boss. I am always ready for you any conddition")
             }
 
             else if (data.data === "country" || data.data === "state" || data.data === "city") {
@@ -113,13 +119,13 @@ const VoiceAssistant = () => {
                         const country = Country.getAllCountries().find(c => c.name === input);
                         if (country) {
                             CSCname = country.isoCode;
-                            return tellCountry(CSCname);
+                            return await tellCountry(CSCname);
                         }
                         if (CSCname === "") {
                             const state = State.getAllStates().find(s => s.name === input);
                             if (state) {
                                 CSCname = state?.isoCode;
-                                return tellState(CSCname, state.countryCode);
+                                return await tellState(CSCname, state.countryCode);
                             }
                         }
 
@@ -127,7 +133,7 @@ const VoiceAssistant = () => {
                             const city = City.getAllCities().find(city => city.name === input);
                             if (city) {
                                 CSCname = city.name;
-                                return tellCity(city.stateCode, CSCname, city.countryCode);
+                                return await tellCity(city.stateCode, CSCname, city.countryCode);
                             }
                         }
                     }
@@ -137,29 +143,30 @@ const VoiceAssistant = () => {
                     const city = City.getAllCities().find(city => city.name === input);
                     if (city) {
                         speakText(`I understand your concern you asking about Weather`)
-                        return cityWeather(city.name);
+                        return await cityWeather(city.name);
                     }
                 }
             } else if (data.data == "play_youtube") {
                 const data = await youtube(userInput);
+                setIframeVisible(true)
                 setVideoURL(`https://www.youtube.com/embed/${data}?autoplay=1`)
             } else if (data.data == "speak_joke") {
-                tellJoke();
+                await tellJoke();
             } else if (data.data == "family_info") {
-                speakText("Sorry, I am AI voice assistant so i have not a family but i have some friend Google Assistant, Siri, Bing others friend")
+                await speakText("Sorry, I am AI voice assistant so i have not a family but i have some friend Google Assistant, Siri, Bing others friend")
             } else if (data.data === "country_capital" || data.data === "country_population") {
                 for (let input of substrings) {
                     const country = Country.getAllCountries().find(city => city.name === input);
                     if (country) {
                         if (data.data === "country_capital") {
-                            tellCapital(country.name)
+                            await tellCapital(country.name)
                         } else {
-                            tellPopulation(country.name)
+                            await tellPopulation(country.name)
                         }
                     }
                 }
             } else if (data.data === "Not_Category") {
-                speakText("Sorry, I don't know much more about that, but with time I am updating myself.");
+                await speakText("Sorry, I don't know much more about that, but with time I am updating myself.");
             }
         } catch (err) {
             console.log(err)
@@ -168,9 +175,38 @@ const VoiceAssistant = () => {
 
 
     return (
-        <>
-            <iframe width="560" height="315" src={videoURL} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-            <div className="home_container">
+        <div className='main_container'>
+            <div className='youtube_video_container'>
+                {iframeVisible ?
+                    <div>
+                        <iframe src={videoURL} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+                        <button className='close_btn' onClick={closeIframe}><AiOutlineCloseCircle /></button>
+                    </div>
+                    :
+                    ""
+                }
+            </div>
+            <div className="mic_animation_container">
+                <div className="home_container1">
+                    <div className="mic" onClick={handleClick}>
+                        {listening ? <FaMicrophone style={{ color: "#000" }} /> : <FaMicrophoneSlash style={{ color: "red" }} />}
+                    </div>
+                    <div className='circle_container' style={{ animationIterationCount: listening ? "infinite" : "" }}>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div className="loading" >
+                        <span style={{ animationIterationCount: listening ? "infinite" : "" }}></span>
+                        <span style={{ animationIterationCount: listening ? "infinite" : "" }}></span>
+                        <span style={{ animationIterationCount: listening ? "infinite" : "" }}></span>
+                        <span style={{ animationIterationCount: listening ? "infinite" : "" }}></span>
+                        <span style={{ animationIterationCount: listening ? "infinite" : "" }}></span>
+                    </div>
+                </div>
+            </div>
+            {/* <div className="home_container">
                 <div className="mic" onClick={handleClick}>
                     {listening ? <FaMicrophone /> : <FaMicrophoneSlash style={{ color: "red" }} />}
                 </div>
@@ -187,9 +223,8 @@ const VoiceAssistant = () => {
                     <span style={{ animationIterationCount: Speak ? "infinite" : "" }}></span>
                     <span style={{ animationIterationCount: Speak ? "infinite" : "" }}></span>
                 </div>
-
-            </div>
-        </>
+            </div> */}
+        </div>
 
 
     );
