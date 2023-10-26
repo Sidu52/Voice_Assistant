@@ -1,7 +1,3 @@
 node_modules
 comands
-client/.env
-client/.gitignore
 .env
-client/src/component/VoiceCommands.jsx
-client/src/component/Api texter.jsx
