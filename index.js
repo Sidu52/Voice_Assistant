@@ -4,6 +4,8 @@ const { exec } = require('child_process');
 const app = express();
 const PORT = 8000;
 const cors = require("cors");
+import dotenv from 'dotenv';
+dotenv.config();
 const db = require('./config/mongoose');
 const { NlpManager } = require('node-nlp');
 const cmd = require('./comands/comands'); // Make sure this path is correct
