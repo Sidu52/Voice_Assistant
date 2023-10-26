@@ -1,10 +1,10 @@
-require('dotenv').config();
+// require('dotenv').config();
 const express = require('express');
 const { exec } = require('child_process');
 const app = express();
 const PORT = 8000;
 const cors = require("cors");
-import dotenv from 'dotenv';
+const dotenv = require('dotenv');
 dotenv.config();
 const db = require('./config/mongoose');
 const { NlpManager } = require('node-nlp');
