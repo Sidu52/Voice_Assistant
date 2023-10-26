@@ -8,7 +8,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const db = require('./config/mongoose');
 const { NlpManager } = require('node-nlp');
-const cmd = require('./comands/comands'); // Make sure this path is correct
+// const cmd = require('./comands/comands'); // Make sure this path is correct
 const manager = new NlpManager({ languages: ['en'], forceNER: true });
 const StringModel = require('./model/stringSchema');
 const uniqueStr = require('./model/uniqeString');
