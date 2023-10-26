@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const { exec } = require('child_process');
 const app = express();
@@ -15,7 +14,7 @@ const compromise = require('compromise');
 
 app.use(cors());
 const corsOptions = {
-    origin: process.env.CORS_URL, // Allow only requests from this domain
+    origin:"http://localhost:5173", // Allow only requests from this domain
     optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 app.use(cors(corsOptions));

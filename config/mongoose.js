@@ -1,7 +1,6 @@
-require('dotenv').config();
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGO_URL);// Connect mongoose using URL
+mongoose.connect("mongodb+srv://Sidhu:Sidu&7879@cluster0.fca4n63.mongodb.net/backup_Cmd");// Connect mongoose using URL
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, "Error connecting to MongoDB"));
 
