@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import annyang from 'annyang';
 import axios from 'axios';
+import { URL } from '../../endpointURL';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
 import { speakText } from './text_to_speack/speaktext';
-import { Country, State, City } from 'country-state-city';
-import { tellCountry, tellState, tellCity, tellCapital, tellPopulation } from './aboutCountryStateCity/CSC';
-import { cityWeather } from './api/weatherAPi'
 import tellJoke from './api/telljoke';
-import { URL } from '../../endpointURL';
 import youtube from './api/youtubeAPI';
+import tellCountryStateCity from './api/tellCountryStateCity';
+import { translateTextToHindi } from './api/translate';
+import { searchWiki } from './api/wikipidia';
+import stateContext from '../mycontext/Mycontext';
 
 const VoiceAssistant = () => {
+    const { state } = useContext(stateContext);
     const [iframeVisible, setIframeVisible] = useState(false);
     const [listening, setListening] = useState(false);
-    const [Speak, setSpeak] = useState(false);
     const [videoURL, setVideoURL] = useState("");
-
 
     const commands = {
         'Good morning *name': () => speakText('Hy Boss Good morning'),
@@ -33,15 +33,15 @@ const VoiceAssistant = () => {
         'I am sad': () => speakText("Sorry Boss, But why are you sad I have a some joke for you or you listen Dinchak Pooja Song"),
         'open *name': (name) => openWebsite(name),
         'Open *name': (name) => openWebsite(name),
-
+        'tell me about *name': (name) => searchWiki(name),
+        'who is a *name': (name) => searchWiki(name),
+        'who is the *name': (name) => searchWiki(name),
     };
-
     useEffect(() => {
         if (annyang) {
             if (listening) {
                 // Start listening when the 'listening' state is true
                 annyang.addCommands(commands);
-
                 annyang.addCallback('result', (phrases) => {
                     console.log(phrases[0])
                     // Check if userInput is not in the commands
@@ -90,15 +90,12 @@ const VoiceAssistant = () => {
     };
     //Find Category
     const findCategory = async (userInput) => {
-        // if userInput not avaiable in cmmmands array that it  tun
         try {
-            // const { data } = await axios.post(import.meta.env.VITE_VITE_ENDPOINT_URL, { userInput });
-            const { data } = await axios.post(`${URL}/findfunction`, { userInput });
-
-            let CSCname = ""
-            const inputArray = userInput.split(" ");
-            // Initialize an array to store the substrings
+            annyang.abort();
+            setListening(false)
             var substrings = [];
+            const { data } = await axios.post(`${URL}/findfunction`, { userInput });
+            const inputArray = userInput.split(" ");
             // Loop through the words and generate substrings
             for (var i = 0; i < inputArray.length; i++) {
                 for (var j = i; j < inputArray.length; j++) {
@@ -107,66 +104,24 @@ const VoiceAssistant = () => {
                 }
             }
             if (data.data == "Hello") {
-                await speakText("Helo Boss, How may I help you")
+                speakText("Helo Boss, How may I help you")
+            } else if (data.data == "Aboutyou") {
+                speakText("I'm good Boss. I am always ready for you any conddition")
+            } else if (data.data == "speak_joke") {
+                tellJoke();
+            } else if (data.data == "translate") {
+                translateTextToHindi(userInput)
+            } else if (data.data == "family_info") {
+                speakText("Sorry, I am AI voice assistant so i have not a family but i have some friend Google Assistant, Siri, Bing others friend")
+            } else if (data.data === "country" || data.data === "state" || data.data === "city" || data.data === "country_capital" || data.data === "country_population" || data.data == "City_Weather") {
+                await tellCountryStateCity(data.data, substrings);
             }
-            else if (data.data == "Aboutyou") {
-                await speakText("I'm good Boss. I am always ready for you any conddition")
-            }
-
-            else if (data.data === "country" || data.data === "state" || data.data === "city") {
-                for (let input of substrings) {
-                    if (CSCname === "") {
-                        const country = Country.getAllCountries().find(c => c.name === input);
-                        if (country) {
-                            CSCname = country.isoCode;
-                            return await tellCountry(CSCname);
-                        }
-                        if (CSCname === "") {
-                            const state = State.getAllStates().find(s => s.name === input);
-                            if (state) {
-                                CSCname = state?.isoCode;
-                                return await tellState(CSCname, state.countryCode);
-                            }
-                        }
-
-                        if (CSCname === "") {
-                            const city = City.getAllCities().find(city => city.name === input);
-                            if (city) {
-                                CSCname = city.name;
-                                return await tellCity(city.stateCode, CSCname, city.countryCode);
-                            }
-                        }
-                    }
-                }
-            } else if (data.data == "City_Weather") {
-                for (let input of substrings) {
-                    const city = City.getAllCities().find(city => city.name === input);
-                    if (city) {
-                        speakText(`I understand your concern you asking about Weather`)
-                        return await cityWeather(city.name);
-                    }
-                }
-            } else if (data.data == "play_youtube") {
+            else if (data.data == "play_youtube") {
                 const data = await youtube(userInput);
                 setIframeVisible(true)
                 setVideoURL(`https://www.youtube.com/embed/${data}?autoplay=1`)
-            } else if (data.data == "speak_joke") {
-                await tellJoke();
-            } else if (data.data == "family_info") {
-                await speakText("Sorry, I am AI voice assistant so i have not a family but i have some friend Google Assistant, Siri, Bing others friend")
-            } else if (data.data === "country_capital" || data.data === "country_population") {
-                for (let input of substrings) {
-                    const country = Country.getAllCountries().find(city => city.name === input);
-                    if (country) {
-                        if (data.data === "country_capital") {
-                            await tellCapital(country.name)
-                        } else {
-                            await tellPopulation(country.name)
-                        }
-                    }
-                }
             } else if (data.data === "Not_Category") {
-                await speakText("Sorry, I don't know much more about that, but with time I am updating myself.");
+                speakText("Sorry, I don't know much more about that, but with time I am updating myself.");
             }
         } catch (err) {
             console.log(err)
@@ -198,11 +153,11 @@ const VoiceAssistant = () => {
                         <span></span>
                     </div>
                     <div className="loading" >
-                        <span style={{ animationIterationCount: listening ? "infinite" : "" }}></span>
-                        <span style={{ animationIterationCount: listening ? "infinite" : "" }}></span>
-                        <span style={{ animationIterationCount: listening ? "infinite" : "" }}></span>
-                        <span style={{ animationIterationCount: listening ? "infinite" : "" }}></span>
-                        <span style={{ animationIterationCount: listening ? "infinite" : "" }}></span>
+                        <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
+                        <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
+                        <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
+                        <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
+                        <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
                     </div>
                 </div>
             </div>
