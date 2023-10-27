@@ -126,7 +126,8 @@ async function openSoftware(command) {
     switch (platform) {
         case 'win32':
         case 'win64':
-            const softwareCommand = `start ${command}.exe`;
+            // const softwareCommand = `start ${command}.exe`;
+            const softwareCommand = `start "" "C:\\Program Files\\${command}\\${command}.exe"`;
             exec(softwareCommand, (error) => {
                 if (error) {
                     console.error(`Error: ${error}`);
