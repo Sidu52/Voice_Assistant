@@ -3,15 +3,15 @@ const { exec } = require('child_process');
 const StringModel = require('../model/stringSchema');
 const uniqueStr = require('../model/uniqeString');
 const compromise = require('compromise');
-const cmd = require('../comands/comands'); // Make sure this path is correct
+// const cmd = require('../comands/comands'); // Make sure this path is correct
 const { NlpManager } = require('node-nlp');
 const manager = new NlpManager({ languages: ['en'], forceNER: true });
 
 
 // Map over the imported `cmd` array to add documents
-cmd.map((item) => {
-    manager.addDocument('en', item.utterance, item.function);
-});
+// cmd.map((item) => {
+//     manager.addDocument('en', item.utterance, item.function);
+// });
 
 // Add responses answer
 // manager.addAnswer('en', 'greetings.hello', 'Hello');
