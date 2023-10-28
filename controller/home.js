@@ -8,12 +8,12 @@ const { NlpManager } = require('node-nlp');
 const manager = new NlpManager({ languages: ['en'], forceNER: true });
 
 
-// Map over the imported `cmd` array to add documents
+// // Map over the imported `cmd` array to add documents
 // cmd.map((item) => {
 //     manager.addDocument('en', item.utterance, item.function);
 // });
 
-// Add responses answer
+// // Add responses answer
 // manager.addAnswer('en', 'greetings.hello', 'Hello');
 // manager.addAnswer('en', 'greeting.aboutyou', 'Aboutyou');
 // manager.addAnswer('en', 'greeting.wiss', 'wiss');
@@ -30,6 +30,8 @@ const manager = new NlpManager({ languages: ['en'], forceNER: true });
 // manager.addAnswer('en', 'youtube_music', 'play_youtube');
 // manager.addAnswer('en', 'open_website', 'open_website');
 // manager.addAnswer('en', 'translate', 'translate');
+// manager.addAnswer('en', 'english_joke', 'english_joke');
+// manager.addAnswer('en', 'hindi_joke', 'hindi_joke');
 
 (async () => {
     await manager.load();
@@ -40,9 +42,15 @@ const manager = new NlpManager({ languages: ['en'], forceNER: true });
 async function findfunction(req, res) {
     try {
         const userInput = req.body.userInput;
-        const webname = await executeCommand(userInput)
+        const doc = compromise(userInput);
+        // Extract the intent (action)  
+        const intent = doc.verbs().out('array')[0];
+        // Extract the entity (what to open)
+        const entity = doc.nouns().out('array')[0];
+        const webname = await executeCommand(intent, entity)
         // Process the user input using the NLP model
         const data = await manager.process('en', userInput)
+
         if (!data.answer) {
             saveUniqueString(userInput);
         } else {
@@ -51,19 +59,19 @@ async function findfunction(req, res) {
         if (data.answer === "open_website") {
             await openSoftware(webname);
         }
-        return res.status(200).json({ message: 'find data sucessfull', data: data.answer || "Not_Category" });
+        return res.status(200).json({ message: 'find data sucessfull', data: data.answer || "Not_Category", noun: entity });
         // return res.status(200).json({ message: 'find data sucessfull', data });
     }
     catch (error) {
         res.status(500).json({ message: 'An error occurred while processing the request.', error });
     }
 }
-async function executeCommand(userInput) {
-    const doc = compromise(userInput);
-    // Extract the intent (action)
-    const intent = doc.verbs().out('array')[0];
-    // Extract the entity (what to open)
-    const entity = doc.nouns().out('array')[0];
+async function executeCommand(intent, entity) {
+    // const doc = compromise(userInput);
+    // // Extract the intent (action)
+    // const intent = doc.verbs().out('array')[0];
+    // // Extract the entity (what to open)
+    // const entity = doc.nouns().out('array')[0];
     if (intent === 'open' && entity) {
         const softwareCommands = {
             skype: 'start skype',//Skype
@@ -86,6 +94,7 @@ async function executeCommand(userInput) {
             cmd: 'start cmd', //command prompt
         };
         const softwareCommand = softwareCommands[entity.toLowerCase()];
+
         return softwareCommand;
     }
 }

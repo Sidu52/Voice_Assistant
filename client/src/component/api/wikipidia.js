@@ -21,14 +21,13 @@ async function searchWiki(title) {
             console.log("Not found (404)");
         } else if (response.ok) {
             const data = await response.json();
-            console.log("title", title)
-            console.log("data", data)
-
             const result = data.query.pages[0].extract;
-            console.log("result", result)
+            if (!result) {
+                speakText(`Sorry ${title} not found`)
+            }
             speakText(result)
         } else {
-            console.log("Response not okay:", response.status);
+            speakText("Response not okay:", response.status);
         }
     } catch (error) {
         console.error("An error occurred:", error);

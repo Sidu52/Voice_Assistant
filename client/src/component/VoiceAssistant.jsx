@@ -13,17 +13,19 @@ import { searchWiki } from './api/wikipidia';
 import stateContext from '../mycontext/Mycontext';
 
 const VoiceAssistant = () => {
-    const { state } = useContext(stateContext);
+    const { state, loading, updateloadingValue, updateSpeakValue } = useContext(stateContext);
+
     const [iframeVisible, setIframeVisible] = useState(false);
     const [listening, setListening] = useState(false);
     const [videoURL, setVideoURL] = useState("");
 
     const commands = {
+        'Hello': () => speakText('Hello How may I help you?'),
         'Good morning *name': () => speakText('Hy Boss Good morning'),
         'Good afternoon *name': () => speakText('Hy Boss Good afternoon'),
         'Good evening *name': () => speakText('Hy Boss Good evening'),
         'Goodbye *name': () => speakText('Goodbye, have a great day!'),
-        'What is your name': () => speakText('My name is Jarvis'),
+        'What is your name': () => speakText('My name is Jarvis', updateloadingValue),
         'Tell me about yourself': () => speakText('I am a voice assistant Sidhu Alston created me.'),
         'Tell me about you': () => speakText('I am a voice assistant Sidhu Alston created me.'),
         'Who are you': () => speakText('I am a voice assistant Sidhu Alston created me.'),
@@ -34,7 +36,7 @@ const VoiceAssistant = () => {
         'open *name': (name) => openWebsite(name),
         'Open *name': (name) => openWebsite(name),
         'tell me about *name': (name) => searchWiki(name),
-        'who is a *name': (name) => searchWiki(name),
+        'Who is a *name': (name) => searchWiki(name),
         'who is the *name': (name) => searchWiki(name),
     };
     useEffect(() => {
@@ -90,6 +92,7 @@ const VoiceAssistant = () => {
     };
     //Find Category
     const findCategory = async (userInput) => {
+        updateloadingValue(true)
         try {
             annyang.abort();
             setListening(false)
@@ -107,9 +110,16 @@ const VoiceAssistant = () => {
                 speakText("Helo Boss, How may I help you")
             } else if (data.data == "Aboutyou") {
                 speakText("I'm good Boss. I am always ready for you any conddition")
-            } else if (data.data == "speak_joke") {
+            } else if (data.data == "english_joke") {
+                speakText("Yes Boss I have a latest hidni and english jokes for you");
                 tellJoke();
-            } else if (data.data == "translate") {
+            } else if (data.data == "hindi_joke") {
+                // speakText("ओके हिंदी में चुटकुले सुना रहा हूं", "HI");/
+                speakText("ओके", "HI");
+                const { data } = await axios.get('https://hindi-jokes-api.onrender.com/jokes?api_key=bd4c780c41c74b6af4ae1f31bc5d');
+                speakText(data.jokeContent, "HI");
+            }
+            else if (data.data == "translate") {
                 translateTextToHindi(userInput)
             } else if (data.data == "family_info") {
                 speakText("Sorry, I am AI voice assistant so i have not a family but i have some friend Google Assistant, Siri, Bing others friend")
@@ -152,15 +162,32 @@ const VoiceAssistant = () => {
                         <span></span>
                         <span></span>
                     </div>
-                    <div className="loading" >
-                        <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
-                        <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
-                        <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
-                        <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
-                        <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
-                    </div>
+
                 </div>
             </div>
+            {loading ?
+                <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                }}>
+                    <div class="typing-indicator">
+                        <div class="typing-circle"></div>
+                        <div class="typing-circle"></div>
+                        <div class="typing-circle"></div>
+                        <div class="typing-shadow"></div>
+                        <div class="typing-shadow"></div>
+                        <div class="typing-shadow"></div>
+                    </div>
+                </div> :
+                <div className="loading" >
+                    <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
+                    <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
+                    <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
+                    <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
+                    <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
+                </div>
+            }
             {/* <div className="home_container">
                 <div className="mic" onClick={handleClick}>
                     {listening ? <FaMicrophone /> : <FaMicrophoneSlash style={{ color: "red" }} />}
