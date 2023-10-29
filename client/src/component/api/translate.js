@@ -2,35 +2,24 @@ import axios from "axios";
 import { speakText } from "../text_to_speack/speaktext";
 
 
-// const takeInput = () => {
-//     return new Promise((resolve, reject) => {
-//         const recognition = new webkitSpeechRecognition();
-//         recognition.onresult = (event) => {
-//             const output = event.results[0][0].transcript;
-//             console.log(output);
-//             resolve(output); // Resolve the promise with the recognized text
-//         };
-//         recognition.onend = () => {
-//             reject("Speech recognition ended without result.");
-//         };
-//         recognition.start();
-//     });
-// }
-
-const takeInput = async () => {
+const takeInput = () => {
     return new Promise((resolve, reject) => {
         const recognition = new webkitSpeechRecognition();
         recognition.onresult = (event) => {
-            const result = event.results[0];
-            const output = result[0].transcript;
-            resolve({ result, output }); // Resolve the promise with the recognized text and result
+            const output = event.results[0][0].transcript;
+            resolve(output); // Resolve the promise with the recognized text
+        };
+        recognition.onerror = (error) => {
+            reject(error); // Reject the promise in case of an error
         };
         recognition.onend = () => {
+            // If onresult is not called before onend, consider it an error
             reject("Speech recognition ended without result.");
         };
         recognition.start();
     });
 };
+
 const transl = async (sentence, foundLanguage) => {
     const encodedParams = new URLSearchParams();
     encodedParams.set('q', sentence);
@@ -46,27 +35,29 @@ const transl = async (sentence, foundLanguage) => {
                 'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
             },
         });
-        speakText(data.data.translations[0].translatedText, foundLanguage);//IT is not working speakText only speak endlishS
+        await speakText(data.data.translations[0].translatedText, foundLanguage);//IT is not working speakText only speak endlishS
     } catch (error) {
         console.error("Translation error:", error);
     }
 };
 const translateTextToHindi = async () => {
     try {
-        speakText("Ok, I think you want to translate into which language. Please speak the target language.");
+        await speakText("Ok, I think you want to translate into which language. Please speak the target language.");
+        console.log("Lanugage")
         let targetLanguage = await takeInput();
+        console.log(targetLanguage)
         if (targetLanguage) {
             // Fetch the language code for the target language
             const { data } = await axios.get("https://pkgstore.datahub.io/core/language-codes/language-codes_json/data/97607046542b532c395cf83df5185246/language-codes_json.json");
             const foundLanguage = (data.find(language => language.English === targetLanguage));
             if (foundLanguage) {
-                speakText("Please speak the sentence or word that you want to translate.");
+                await speakText("Please speak the sentence or word that you want to translate.");
                 let sentence = await takeInput();
                 if (sentence) {
-                    transl(sentence, foundLanguage.alpha2);
+                    return transl(sentence, foundLanguage.alpha2);
                 }
             } else {
-                return speakText("Language not found.");
+                return await speakText("Language not found.");
             }
         }
     } catch (err) {

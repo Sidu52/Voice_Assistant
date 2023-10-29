@@ -10,11 +10,11 @@ const tellCountry = async (name) => {
         var detail = countryDetail.data;
         const { data } = await axios.get(`https://restcountries.com/v3.1/name/${countryDetail.data.name}`);
         if (data) {
-            speakText(`${detail.name} is a ${detail.region} beautiful Country and the official name is ${detail.native} and subregion of this country is ${detail.subregion}`);
-            speakText(`The name of these country is ${data[0].name?.common} and the capital of that country is ${detail.capital} and the currency name of these country is ${detail.currency_name}`);
-            speakText(`The area of ${detail.name} is ${data[0].area} kilometers and ${detail.name} border is shared with ${data[0].borders?.length} countries border`);
+            await speakText(`${detail.name} is a ${detail.region} beautiful Country and the official name is ${detail.native} and subregion of this country is ${detail.subregion}`);
+            await speakText(`The name of these country is ${data[0].name?.common} and the capital of that country is ${detail.capital} and the currency name of these country is ${detail.currency_name}`);
+            return await speakText(`The area of ${detail.name} is ${data[0].area} kilometers and ${detail.name} border is shared with ${data[0].borders?.length} countries border`);
         } else {
-            speakText(`Sorry ${detail.name} country is not found`);
+            return await speakText(`Sorry ${detail.name} country is not found`);
         }
     } catch (err) {
         console.error(err);
@@ -33,9 +33,9 @@ const tellState = async (name, countryCode) => {
             }
         })
         if (data) {
-            speakText(`${data.name} is a ${countryDetail.data.name} beautiful State.`);
+            return await speakText(`${data.name} is a ${countryDetail.data.name} beautiful State.`);
         } else {
-            speakText(`Sorry ${data.name} State is not found`);
+            return await speakText(`Sorry ${data.name} State is not found`);
         }
     } catch (err) {
         console.error(err);
@@ -51,9 +51,9 @@ const tellCity = async (stateCode, name, countryCode) => {
             }
         });
         if (data) {
-            speakText(`${name} is a ${data.name} beautiful City.`);
+            return await speakText(`${name} is a ${data.name} beautiful City.`);
         } else {
-            speakText(`Sorry ${data.name} State is not found`);
+            return await speakText(`Sorry ${data.name} State is not found`);
         }
 
     } catch (err) {
@@ -66,13 +66,13 @@ const tellCapital = async (country) => {
     try {
         const { data } = await axios.get(`https://restcountries.com/v3.1/name/${country}`);
         if (data) {
-            speakText(`The Capital of ${country} is a ${data[0].capital}`);
+            return await speakText(`The Capital of ${country} is a ${data[0].capital}`);
         } else {
-            speakText(`Sorry ${country} country is not found`);
+            return await speakText(`Sorry ${country} country is not found`);
         }
     } catch (err) {
         console.error(err);
-        speakText('Sorry, there was an error fetching country data');
+        await speakText('Sorry, there was an error fetching country data');
     }
 };
 
@@ -80,13 +80,13 @@ const tellPopulation = async (country) => {
     try {
         const { data } = await axios.get(`https://restcountries.com/v3.1/name/${country}`);
         if (data) {
-            speakText(`The population of ${country} is a ${data[0].population} population`);
+            return await speakText(`The population of ${country} is a ${data[0].population} population`);
         } else {
-            speakText(`Sorry ${country} country is not found`);
+            return await speakText(`Sorry ${country} country is not found`);
         }
     } catch (err) {
         console.error(err);
-        speakText('Sorry, there was an error fetching country data');
+        return await speakText('Sorry, there was an error fetching country data');
     }
 };
 

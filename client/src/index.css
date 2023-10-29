@@ -7,6 +7,7 @@
 .main_container{
   display: grid;
   grid-template-columns: 100%;
+  align-items: center;
 }
 
 .youtube_video_container div{
@@ -36,6 +37,8 @@
   width: 100%;
   /* height: 353px; */
   display: flex;
+  flex-direction: column;
+  gap: 40px;
   align-items: center;
   justify-content: center;
 }
@@ -94,8 +97,8 @@
 .mic {
   position: absolute;
   z-index: 1;
-  top: 48%;
-  left: 48%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   font-size: 75px;
 
@@ -103,50 +106,157 @@
 .mic svg{
   animation: keyframes-fill 1s;
 }
-.loading {
-  --speed-of-animation: 0.9s;
-    --gap: 6px;
-    --first-color: #4c86f9;
-    --second-color: #49a84c;
-    --third-color: #f6bb02;
-    --fourth-color: #f6bb02;
-    --fifth-color: #2196f3;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100px;
-    gap: 15px;
-    height: 100px;
+
+.loader {
+  position: relative;
+  width: 2.5em;
+  height: 2.5em;
+  transform: rotate(165deg);
+  z-index: 1;
  }
  
- .loading span {
+ .loader:before, .loader:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 0.25em;
+  transform: translate(-50%, -50%);
+ }
+ 
+ .loader:before {
+  animation: before8 2s infinite;
+ }
+ 
+ .loader:after {
+  animation: after6 2s infinite;
+ }
+ .loader {
+  position: absolute;
+  top: calc(50% - 1.25em);
+  left: calc(50% - 1.25em);
+ }
+
+ .wave-menu {
+  border: 4px solid #9054e5;
+  border-radius: 50px;
+  width: 200px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  transition: ease 0.2s;
+  position: relative;
+  background: #fff;
+  transition: all 0.3s linear;
+}
+
+.wave-menu li {
+  list-style: none;
+  height: 30px;
   width: 4px;
-  height: 50px;
-  background: var(--first-color);
-  transform: scaleY(0);
-  animation: scale var(--speed-of-animation) ease-in-out ;
- }
- 
- .loading span:nth-child(2) {
-  background: var(--second-color);
-  animation-delay: -0.8s;
- }
- 
- .loading span:nth-child(3) {
-  background: var(--third-color);
-  animation-delay: -0.7s;
- }
- 
- .loading span:nth-child(4) {
-  background: var(--fourth-color);
-  animation-delay: -0.6s;
- }
- 
- .loading span:nth-child(5) {
-  background: var(--fifth-color);
-  animation-delay: -0.5s;
- }
- 
+  border-radius: 10px;
+  background: #c154e5;
+  margin: 0 6px;
+  padding: 0;
+  animation-name: wave1;
+  animation-duration: 0.3s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  transition: ease 0.2s;
+}
+
+.wave-menu:hover > li {
+  background: #fff;
+}
+
+.wave-menu:hover {
+  background: #9054e5;
+}
+
+.wave-menu li:nth-child(2) {
+  animation-name: wave2;
+  animation-delay: 0.2s;
+}
+
+.wave-menu li:nth-child(3) {
+  animation-name: wave3;
+  animation-delay: 0.23s;
+  animation-duration: 0.4s;
+}
+
+.wave-menu li:nth-child(4) {
+  animation-name: wave4;
+  animation-delay: 0.1s;
+  animation-duration: 0.3s;
+}
+
+.wave-menu li:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+.wave-menu li:nth-child(6) {
+  animation-name: wave2;
+  animation-duration: 0.5s;
+}
+
+.wave-menu li:nth-child(8) {
+  animation-name: wave4;
+  animation-delay: 0.4s;
+  animation-duration: 0.25s;
+}
+
+.wave-menu li:nth-child(9) {
+  animation-name: wave3;
+  animation-delay: 0.15s;
+}
+
+@keyframes wave1 {
+  from {
+    transform: scaleY(1);
+  }
+
+  to {
+    transform: scaleY(0.5);
+  }
+}
+
+@keyframes wave2 {
+  from {
+    transform: scaleY(0.3);
+  }
+
+  to {
+    transform: scaleY(0.6);
+  }
+}
+
+@keyframes wave3 {
+  from {
+    transform: scaleY(0.6);
+  }
+
+  to {
+    transform: scaleY(0.8);
+  }
+}
+
+@keyframes wave4 {
+  from {
+    transform: scaleY(0.2);
+  }
+
+  to {
+    transform: scaleY(0.5);
+  }
+}
+
  @keyframes scale {
   0%, 40%, 100% {
    transform: scaleY(0.05);
@@ -179,91 +289,46 @@
   }
 }
 
-.typing-indicator {
-  width: 60px;
-  height: 30px;
-  position: relative;
-  z-index: 4;
-}
-
-.typing-circle {
-  width: 8px;
-  height: 8px;
-  position: absolute;
-  border-radius: 50%;
-  background-color: #000;
-  left: 15%;
-  transform-origin: 50%;
-  animation: typing-circle7124 0.5s alternate infinite ease;
-}
-
-@keyframes typing-circle7124 {
+@keyframes before8 {
   0% {
-    top: 20px;
-    height: 5px;
-    border-radius: 50px 50px 25px 25px;
-    transform: scaleX(1.7);
+   width: 0.5em;
+   box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
   }
-
-  40% {
-    height: 8px;
-    border-radius: 50%;
-    transform: scaleX(1);
+ 
+  35% {
+   width: 2.5em;
+   box-shadow: 0 -0.5em rgba(225, 20, 98, 0.75), 0 0.5em rgba(111, 202, 220, 0.75);
   }
-
+ 
+  70% {
+   width: 0.5em;
+   box-shadow: -1em -0.5em rgba(225, 20, 98, 0.75), 1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+ 
   100% {
-    top: 0%;
+   box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
   }
-}
-
-.typing-circle:nth-child(2) {
-  left: 45%;
-  animation-delay: 0.2s;
-}
-
-.typing-circle:nth-child(3) {
-  left: auto;
-  right: 15%;
-  animation-delay: 0.3s;
-}
-
-.typing-shadow {
-  width: 5px;
-  height: 4px;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.2);
-  position: absolute;
-  top: 30px;
-  transform-origin: 50%;
-  z-index: 3;
-  left: 15%;
-  filter: blur(1px);
-  animation: typing-shadow046 0.5s alternate infinite ease;
-}
-
-@keyframes typing-shadow046 {
+ }
+ 
+ @keyframes after6 {
   0% {
-    transform: scaleX(1.5);
+   height: 0.5em;
+   box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
   }
-
-  40% {
-    transform: scaleX(1);
-    opacity: 0.7;
+ 
+  35% {
+   height: 2.5em;
+   box-shadow: 0.5em 0 rgba(61, 184, 143, 0.75), -0.5em 0 rgba(233, 169, 32, 0.75);
   }
-
+ 
+  70% {
+   height: 0.5em;
+   box-shadow: 0.5em -1em rgba(61, 184, 143, 0.75), -0.5em 1em rgba(233, 169, 32, 0.75);
+  }
+ 
   100% {
-    transform: scaleX(0.2);
-    opacity: 0.4;
+   box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
   }
-}
-
-.typing-shadow:nth-child(4) {
-  left: 45%;
-  animation-delay: 0.2s;
-}
-
-.typing-shadow:nth-child(5) {
-  left: auto;
-  right: 15%;
-  animation-delay: 0.3s;
-}
+ }
+ 
+ 

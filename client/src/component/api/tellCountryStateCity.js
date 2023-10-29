@@ -7,9 +7,7 @@ import { searchWiki } from '../api//wikipidia';
 const tellCountryStateCity = async (type, substrings) => {
     let CSCname = "";
     try {
-        console.log("Stbstring", substrings)
         for (let input of substrings) {
-            console.log("input", input)
             if (CSCname === "") {
                 const country = Country.getAllCountries().find(c => c.name === input);
                 if (country) {
@@ -32,20 +30,17 @@ const tellCountryStateCity = async (type, substrings) => {
                         return searchWiki(state.name)
                     }
                 }
-
                 if (CSCname === "") {
                     const city = City.getAllCities().find(city => city.name === input);
                     if (city) {
-                        console.log(city)
-                        if (type === "City_Weather") {
-                            speakText(`I understand your concern you asking about Weather`)
-                            return cityWeather(city.name);
+                        if (type === "City_Weather" || type == "weather_forecast") {
+                           await speakText(`I understand your concern you asking about Weather`)
+                            return cityWeather(city.name, type);
                         } else {
                             CSCname = city.name;
                             // return tellCity(city.stateCode, CSCname, city.countryCode);
                             return searchWiki(city.name);
                         }
-
                     }
                 }
             }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import annyang from 'annyang';
 import axios from 'axios';
 import { URL } from '../../endpointURL';
@@ -11,6 +11,7 @@ import tellCountryStateCity from './api/tellCountryStateCity';
 import { translateTextToHindi } from './api/translate';
 import { searchWiki } from './api/wikipidia';
 import stateContext from '../mycontext/Mycontext';
+import getCurrentTimeAndDate from './api/findDateTime';
 
 const VoiceAssistant = () => {
     const { state, loading, updateloadingValue, updateSpeakValue } = useContext(stateContext);
@@ -20,24 +21,30 @@ const VoiceAssistant = () => {
     const [videoURL, setVideoURL] = useState("");
 
     const commands = {
-        'Hello': () => speakText('Hello How may I help you?'),
-        'Good morning *name': () => speakText('Hy Boss Good morning'),
-        'Good afternoon *name': () => speakText('Hy Boss Good afternoon'),
-        'Good evening *name': () => speakText('Hy Boss Good evening'),
-        'Goodbye *name': () => speakText('Goodbye, have a great day!'),
-        'What is your name': () => speakText('My name is Jarvis', updateloadingValue),
-        'Tell me about yourself': () => speakText('I am a voice assistant Sidhu Alston created me.'),
-        'Tell me about you': () => speakText('I am a voice assistant Sidhu Alston created me.'),
-        'Who are you': () => speakText('I am a voice assistant Sidhu Alston created me.'),
-        'Who created you': () => speakText('Sidhu Alston created me.'),
-        'I am feeling sad': () => speakText("Sorry Boss, But why are you sad I have a some joke for you or you listen Dinchak Pooja Song"),
-        'I am feeling boring': () => speakText("Sorry Boss, But why are you sad I have a some joke for you or you listen Dinchak Pooja Song"),
-        'I am sad': () => speakText("Sorry Boss, But why are you sad I have a some joke for you or you listen Dinchak Pooja Song"),
+        // 'Hello': () => speakText('Hello How may I help you?'),
+        'Good morning *name': () => speak('Hy Boss Good morning'),
+        'Good afternoon *name': () => speak('Hy Boss Good afternoon'),
+        'Good evening *name': () => speak('Hy Boss Good evening'),
+        'Goodbye *name': () => speak('Goodbye, have a great day!'),
+        'What is your name': () => speak('My name is Jarvis', updateloadingValue),
+        'Tell me about yourself': () => speak('I am a voice assistant Sidhu Alston created me.'),
+        'Tell me about you': () => speak('I am a voice assistant Sidhu Alston created me.'),
+        'Who are you': () => speak('I am a voice assistant Sidhu Alston created me.'),
+        'Who created you': () => speak('Sidhu Alston created me.'),
+        'I am feeling sad': () => speak("Sorry Boss, But why are you sad I have a some joke for you or you listen Dinchak Pooja Song"),
+        'I am feeling boring': () => speak("Sorry Boss, But why are you sad I have a some joke for you or you listen Dinchak Pooja Song"),
+        'I am sad': () => speak("Sorry Boss, But why are you sad I have a some joke for you or you listen Dinchak Pooja Song"),
         'open *name': (name) => openWebsite(name),
         'Open *name': (name) => openWebsite(name),
-        'tell me about *name': (name) => searchWiki(name),
         'Who is a *name': (name) => searchWiki(name),
         'who is the *name': (name) => searchWiki(name),
+        //Youtube command
+        'close youtube': () => closeIframe(),
+        'close music': () => closeIframe(),
+        'close video': () => closeIframe(),
+        'stop music': () => closeIframe(),
+        'stop youtube': () => closeIframe(),
+        'stop video': () => closeIframe(),
     };
     useEffect(() => {
         if (annyang) {
@@ -64,8 +71,21 @@ const VoiceAssistant = () => {
         };
     }, [listening]);
 
+    //Speaking precommand
+    const speak = async (message) => {
+        annyang.abort();
+        setListening(false)
+        updateSpeakValue(true);
+        await speakText(message);
+        updateSpeakValue(false);
+    }
+
+    // Function to close the video
     const closeIframe = () => {
+        annyang.abort();
+        setListening(false)
         setIframeVisible(false);
+
     };
 
     const handleClick = async () => {
@@ -92,12 +112,19 @@ const VoiceAssistant = () => {
     };
     //Find Category
     const findCategory = async (userInput) => {
-        updateloadingValue(true)
+
         try {
+            updateloadingValue(true)
             annyang.abort();
             setListening(false)
+
             var substrings = [];
             const { data } = await axios.post(`${URL}/findfunction`, { userInput });
+            if (data) {
+                updateloadingValue(false);
+                updateSpeakValue(true);
+            }
+
             const inputArray = userInput.split(" ");
             // Loop through the words and generate substrings
             for (var i = 0; i < inputArray.length; i++) {
@@ -107,37 +134,50 @@ const VoiceAssistant = () => {
                 }
             }
             if (data.data == "Hello") {
-                speakText("Helo Boss, How may I help you")
+                await speakText("Hy Boss, How may I help you")
             } else if (data.data == "Aboutyou") {
-                speakText("I'm good Boss. I am always ready for you any conddition")
+                await speakText("I'm good Boss. I am always ready for you any conddition")
+            } else if (data.data == "about_us") {
+                await speakText("It is a credential information.")
+                await speakText("I have not a authenticate for sharing my credential information with anyone.")
+                await speakText("But i am create using mern technology React.js, Node.js, Exprees.js and Mongose for storing data for updating myself.")
+            } else if (data.data == "date" || data.data == "time") {
+                await getCurrentTimeAndDate(data.data);
             } else if (data.data == "english_joke") {
-                speakText("Yes Boss I have a latest hidni and english jokes for you");
-                tellJoke();
+                await speakText("Yes Boss I have a latest hindi and english jokes for you");
+                await tellJoke();
             } else if (data.data == "hindi_joke") {
                 // speakText("ओके हिंदी में चुटकुले सुना रहा हूं", "HI");/
-                speakText("ओके", "HI");
+                await speakText("ओके", "HI");
+                updateSpeakValue(false)
+                updateloadingValue(true)
                 const { data } = await axios.get('https://hindi-jokes-api.onrender.com/jokes?api_key=bd4c780c41c74b6af4ae1f31bc5d');
-                speakText(data.jokeContent, "HI");
-            }
-            else if (data.data == "translate") {
-                translateTextToHindi(userInput)
+                if (data) {
+                    updateloadingValue(false)
+                    updateSpeakValue(true)
+                    await speakText(data.jokeContent.slice(0, -7), "HI");
+                }
+
+            } else if (data.data == "wikipidia") {
+                await searchWiki(userInput)
+            } else if (data.data == "translate") {
+                await translateTextToHindi(userInput)
             } else if (data.data == "family_info") {
-                speakText("Sorry, I am AI voice assistant so i have not a family but i have some friend Google Assistant, Siri, Bing others friend")
-            } else if (data.data === "country" || data.data === "state" || data.data === "city" || data.data === "country_capital" || data.data === "country_population" || data.data == "City_Weather") {
+                await speakText("Sorry, I am a AI voice assistant, So i have not a family but i have some friend Google Assistant, Siri, Bing others friend")
+            } else if (data.data === "country" || data.data === "state" || data.data === "city" || data.data === "country_capital" || data.data === "country_population" || data.data == "City_Weather" || data.data == "weather_forecast") {
                 await tellCountryStateCity(data.data, substrings);
-            }
-            else if (data.data == "play_youtube") {
+            } else if (data.data == "play_youtube") {
                 const data = await youtube(userInput);
                 setIframeVisible(true)
                 setVideoURL(`https://www.youtube.com/embed/${data}?autoplay=1`)
             } else if (data.data === "Not_Category") {
-                speakText("Sorry, I don't know much more about that, but with time I am updating myself.");
+                await speakText("Sorry, I don't know much more about that, but with time I am updating myself.");
             }
+            updateSpeakValue(false)
         } catch (err) {
             console.log(err)
         }
     }
-
 
     return (
         <div className='main_container'>
@@ -145,7 +185,6 @@ const VoiceAssistant = () => {
                 {iframeVisible ?
                     <div>
                         <iframe src={videoURL} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-                        <button className='close_btn' onClick={closeIframe}><AiOutlineCloseCircle /></button>
                     </div>
                     :
                     ""
@@ -153,9 +192,14 @@ const VoiceAssistant = () => {
             </div>
             <div className="mic_animation_container">
                 <div className="home_container1">
-                    <div className="mic" onClick={handleClick}>
-                        {listening ? <FaMicrophone style={{ color: "#000" }} /> : <FaMicrophoneSlash style={{ color: "red" }} />}
-                    </div>
+                    {loading.loading ?
+                        <div class="loader"></div>
+                        :
+                        <div className="mic" onClick={handleClick}>
+                            {listening ? <FaMicrophone style={{ color: "#000" }} /> : <FaMicrophoneSlash style={{ color: "red" }} />}
+                        </div>
+                    }
+
                     <div className='circle_container' style={{ animationIterationCount: listening ? "infinite" : "" }}>
                         <span></span>
                         <span></span>
@@ -164,48 +208,19 @@ const VoiceAssistant = () => {
                     </div>
 
                 </div>
+                <ul class="wave-menu" style={{ width: state.speak ? "243px" : 0, height: state.speak ? "43px" : 0, borderWidth: state.speak ? "4px" : 0 }}>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
             </div>
-            {loading ?
-                <div style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center"
-                }}>
-                    <div class="typing-indicator">
-                        <div class="typing-circle"></div>
-                        <div class="typing-circle"></div>
-                        <div class="typing-circle"></div>
-                        <div class="typing-shadow"></div>
-                        <div class="typing-shadow"></div>
-                        <div class="typing-shadow"></div>
-                    </div>
-                </div> :
-                <div className="loading" >
-                    <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
-                    <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
-                    <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
-                    <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
-                    <span style={{ animationIterationCount: state.Speak ? "infinite" : "" }}></span>
-                </div>
-            }
-            {/* <div className="home_container">
-                <div className="mic" onClick={handleClick}>
-                    {listening ? <FaMicrophone /> : <FaMicrophoneSlash style={{ color: "red" }} />}
-                </div>
-                <div className="container" style={{ animationIterationCount: listening ? "infinite" : "" }}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <div className="loading" >
-                    <span style={{ animationIterationCount: Speak ? "infinite" : "" }}></span>
-                    <span style={{ animationIterationCount: Speak ? "infinite" : "" }}></span>
-                    <span style={{ animationIterationCount: Speak ? "infinite" : "" }}></span>
-                    <span style={{ animationIterationCount: Speak ? "infinite" : "" }}></span>
-                    <span style={{ animationIterationCount: Speak ? "infinite" : "" }}></span>
-                </div>
-            </div> */}
         </div>
 
 

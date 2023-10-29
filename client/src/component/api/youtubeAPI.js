@@ -15,12 +15,7 @@ async function fetchYouTubeData(apiKey, searchQuery, type) {
         if (!response.ok) {
             throw new Error('Failed to fetch data from YouTube API');
         }
-
-        console.log("Response", response)
         const data = await response.json();
-        console.log("DATA", data)
-
-
         // Handle the data here as needed
         return data;
     } catch (error) {
@@ -28,17 +23,6 @@ async function fetchYouTubeData(apiKey, searchQuery, type) {
         throw error; // Re-throw the error for the caller to handle
     }
 }
-
-
-// Play a specific video or playlist based on its ID
-function playYouTubeContent(contentId) {
-    const url = `https://www.youtube.com/watch?v=${contentId}`;
-    const link = document.createElement('a');
-    link.href = url;
-    link.target = '_blank';
-    link.click();
-}
-
 
 async function youtube(search) {
     speakText("Okk, Music Play on YouTube")
@@ -52,7 +36,7 @@ async function youtube(search) {
         return videoId;
         // playYouTubeContent(videoId);
     } else {
-        speakText('No videos found in the response.');
+        return await speakText('No videos found in the response.');
     }
 }
 
