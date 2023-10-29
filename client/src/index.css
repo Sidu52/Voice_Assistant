@@ -4,6 +4,13 @@
 
 }
 
+.App{
+  background-image: url("../black.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+}
+
 .main_container{
   display: grid;
   grid-template-columns: 100%;

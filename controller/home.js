@@ -3,40 +3,40 @@ const { exec } = require('child_process');
 const StringModel = require('../model/stringSchema');
 const uniqueStr = require('../model/uniqeString');
 const compromise = require('compromise');
-const cmd = require('../comands/comands'); // Make sure this path is correct
+// const cmd = require('../comands/comands'); // Make sure this path is correct
 const { NlpManager } = require('node-nlp');
 const manager = new NlpManager({ languages: ['en'], forceNER: true });
 
 
-// Map over the imported `cmd` array to add documents
-cmd.map((item) => {
-    manager.addDocument('en', item.utterance, item.function);
-});
+// // Map over the imported `cmd` array to add documents
+// cmd.map((item) => {
+//     manager.addDocument('en', item.utterance, item.function);
+// });
 
-// Add responses answer
-manager.addAnswer('en', 'greetings.hello', 'Hello');
-manager.addAnswer('en', 'greeting.aboutyou', 'Aboutyou');
-manager.addAnswer('en', 'greeting.wiss', 'wiss');
-manager.addAnswer('en', 'greetings.bye', 'Bye');
-manager.addAnswer('en', 'weather', 'City_Weather');
-manager.addAnswer('en', 'country', 'country');
-manager.addAnswer('en', 'country_capital', 'country_capital');
-manager.addAnswer('en', 'country_population', 'country_population');
-manager.addAnswer('en', 'state', 'state');
-manager.addAnswer('en', 'city', 'city');
-manager.addAnswer('en', 'speak_joke', 'speak_joke');
-manager.addAnswer('en', 'family_info', 'family_info');
-manager.addAnswer('en', 'music_play', 'music_play');
-manager.addAnswer('en', 'youtube_music', 'play_youtube');
-manager.addAnswer('en', 'open_website', 'open_website');
-manager.addAnswer('en', 'translate', 'translate');
-manager.addAnswer('en', 'english_joke', 'english_joke');
-manager.addAnswer('en', 'hindi_joke', 'hindi_joke');
-manager.addAnswer('en', 'weather_forecast', 'weather_forecast');
-manager.addAnswer('en', 'date', 'date');
-manager.addAnswer('en', 'time', 'time');
-manager.addAnswer('en', 'wikipidia', 'wikipidia');
-manager.addAnswer('en', 'about_us', 'about_us');
+// // Add responses answer
+// manager.addAnswer('en', 'greetings.hello', 'Hello');
+// manager.addAnswer('en', 'greeting.aboutyou', 'Aboutyou');
+// manager.addAnswer('en', 'greeting.wiss', 'wiss');
+// manager.addAnswer('en', 'greetings.bye', 'Bye');
+// manager.addAnswer('en', 'weather', 'City_Weather');
+// manager.addAnswer('en', 'country', 'country');
+// manager.addAnswer('en', 'country_capital', 'country_capital');
+// manager.addAnswer('en', 'country_population', 'country_population');
+// manager.addAnswer('en', 'state', 'state');
+// manager.addAnswer('en', 'city', 'city');
+// manager.addAnswer('en', 'speak_joke', 'speak_joke');
+// manager.addAnswer('en', 'family_info', 'family_info');
+// manager.addAnswer('en', 'music_play', 'music_play');
+// manager.addAnswer('en', 'youtube_music', 'play_youtube');
+// manager.addAnswer('en', 'open_website', 'open_website');
+// manager.addAnswer('en', 'translate', 'translate');
+// manager.addAnswer('en', 'english_joke', 'english_joke');
+// manager.addAnswer('en', 'hindi_joke', 'hindi_joke');
+// manager.addAnswer('en', 'weather_forecast', 'weather_forecast');
+// manager.addAnswer('en', 'date', 'date');
+// manager.addAnswer('en', 'time', 'time');
+// manager.addAnswer('en', 'wikipidia', 'wikipidia');
+// manager.addAnswer('en', 'about_us', 'about_us');
 
 (async () => {
     await manager.load();
@@ -72,11 +72,6 @@ async function findfunction(req, res) {
     }
 }
 async function executeCommand(intent, entity) {
-    // const doc = compromise(userInput);
-    // // Extract the intent (action)
-    // const intent = doc.verbs().out('array')[0];
-    // // Extract the entity (what to open)
-    // const entity = doc.nouns().out('array')[0];
     if (intent === 'open' && entity) {
         const softwareCommands = {
             skype: 'start skype',//Skype
