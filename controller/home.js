@@ -37,6 +37,13 @@ const manager = new NlpManager({ languages: ['en'], forceNER: true });
 // manager.addAnswer('en', 'time', 'time');
 // manager.addAnswer('en', 'wikipidia', 'wikipidia');
 // manager.addAnswer('en', 'about_us', 'about_us');
+// manager.addAnswer('en', 'gkquize', 'gkquize');
+// manager.addAnswer('en', 'SidhuAlston', 'SidhuAlston');
+// manager.addAnswer('en', 'create_todolsit', 'create_todolsit');
+// manager.addAnswer('en', 'update_todolsit', 'update_todolsit');
+// manager.addAnswer('en', 'delete_todolsit', 'delete_todolsit');
+// manager.addAnswer('en', 'get_todolsit', 'get_todolsit');
+// manager.addAnswer('en', 'getAll_todolsit', 'getAll_todolsit');
 
 (async () => {
     await manager.load();

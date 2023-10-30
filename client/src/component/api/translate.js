@@ -64,4 +64,4 @@ const translateTextToHindi = async () => {
         console.error("Error:", err);
     }
 }
-export { translateTextToHindi };
+export { translateTextToHindi,takeInput };

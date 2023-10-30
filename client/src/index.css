@@ -5,9 +5,7 @@
 }
 
 .App{
-  background-image: url("../black.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-color: #000;
   min-height: 100vh;
 }
 

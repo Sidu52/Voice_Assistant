@@ -20,7 +20,7 @@ app.use(express.json());
 
 // Set routes
 app.use('/', require('./router'));
-// app.use('/toggle', require('./routes/post'));
+app.use('/todo', require('./router/todo'));
 
 //SetIp Exprees server
 app.listen(PORT, (error) => {
