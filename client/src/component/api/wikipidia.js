@@ -62,10 +62,8 @@ async function searchWiki(input) {
         // Tokenize the input and get nouns
         const doc = compromise(input);
         const nouns = doc.nouns().toTitleCase().out('array');
-
         // Initialize the result
         let result = null;
-
         for (let k = 0; k < nouns.length; k++) {
             for (let j = k; j < nouns.length; j++) {
                 // Create a substring from the nouns

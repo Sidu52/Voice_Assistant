@@ -18,6 +18,7 @@ const VoiceAssistant = () => {
     const { state, loading, updateloadingValue, updateSpeakValue } = useContext(stateContext);
     const [iframeVisible, setIframeVisible] = useState(false);
     const [listening, setListening] = useState(false);
+    const [anayan, setAnayan] = useState(false);
     const [videoURL, setVideoURL] = useState("");
 
     const commands = {
@@ -68,10 +69,23 @@ const VoiceAssistant = () => {
         };
     }, [listening]);
 
-    //Speaking precommand
+    //function for speaking
+    const animationupdate = async (value) => {
+        setAnayan(value);
+        updateSpeakValue(!value)
+        return;
+    }
+    //function for handle loading value
+    const loadingupdate = async (value) => {
+        updateloadingValue(value)
+        return;
+    }
+
+    //Speaking precomman
     const speak = async (message) => {
         annyang.abort();
         setListening(false)
+        setAnayan(false);
         updateSpeakValue(true);
         await speakText(message);
         updateSpeakValue(false);
@@ -85,12 +99,14 @@ const VoiceAssistant = () => {
     const closeIframe = () => {
         annyang.abort();
         setListening(false)
+        setAnayan(false);
         setIframeVisible(false);
 
     };
 
     const handleClick = async () => {
         setListening(!listening);
+        setAnayan(!anayan);
     }
 
     const isUserInputInCommands = (userInput) => {
@@ -117,6 +133,7 @@ const VoiceAssistant = () => {
             updateloadingValue(true);
             annyang.abort();
             setListening(false);
+            setAnayan(false)
 
             const { data } = await axios.post(`${URL}/findfunction`, { userInput });
 
@@ -148,21 +165,21 @@ const VoiceAssistant = () => {
                     await getCurrentTimeAndDate(data.data);
                     break;
                 case "english_joke":
-                    await speakText("Yes Boss, I have the latest Hindi and English jokes for you");
+                    await speakText("Yes Boss, I have the latest English jokes for you");
                     await tellJoke();
                     break;
                 case "hindi_joke":
                     await handleHindiJoke();
                     break;
                 case "gkquize":
-                    await speakText("ok I think you want to play Quize game, I am Quize game");
-                    await gkquize();
+                    await speakText("ok I think you want to play quiz game.");
+                    await gkquize(animationupdate, loadingupdate);
                     break;
                 case "wikipidia":
                     await searchWiki(userInput);
                     break;
                 case "translate":
-                    await translateTextToHindi(userInput);
+                    await translateTextToHindi(animationupdate, loadingupdate);
                     break;
                 case "family_info":
                     await speakText("Sorry, I am an AI voice assistant, so I do not have a family but I have some friends like Google Assistant, Siri, Bing, and others");
@@ -184,7 +201,7 @@ const VoiceAssistant = () => {
                 case "delete_todolsit":
                 case "getAll_todolsit":
                 case "get_todolsit":
-                    await todo(data.data);
+                    await todo(data.data, animationupdate, loadingupdate);
                     break;
                 case "Not_Category":
                     await speakText("Sorry, I don't know much more about that, but with time I am updating myself");
@@ -203,7 +220,6 @@ const VoiceAssistant = () => {
         await speakText("ओके", "HI");
         updateSpeakValue(false);
         updateloadingValue(true);
-
         try {
             const { data } = await axios.get('https://hindi-jokes-api.onrender.com/jokes?api_key=bd4c780c41c74b6af4ae1f31bc5d');
 
@@ -381,7 +397,7 @@ const VoiceAssistant = () => {
                         <div className="loader"></div>
                     ) : (
                         <div className="mic" onClick={handleClick}>
-                            {listening ? <FaMicrophone style={{ color: '#000' }} /> : <FaMicrophoneSlash style={{ color: 'red' }} />}
+                            {listening || anayan ? <FaMicrophone style={{ color: '#000' }} /> : <FaMicrophoneSlash style={{ color: 'red' }} />}
                         </div>
                     )}
                     <div className="circle_container" style={{ animationIterationCount: listening ? 'infinite' : '' }}>

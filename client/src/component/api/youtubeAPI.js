@@ -10,7 +10,6 @@ async function fetchYouTubeData(apiKey, searchQuery, type) {
             q: searchQuery,
             type: type,
         });
-
         const response = await fetch(`${baseUrl}?${params.toString()}`);
         if (!response.ok) {
             throw new Error('Failed to fetch data from YouTube API');

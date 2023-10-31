@@ -17,7 +17,6 @@ const cityWeather = async (cityName, type) => {
                 const date = new Date(item.dt * 1000);
                 // You can then format the date and time as needed
                 const formattedDate = date.toLocaleString(); // This will format the date and time according to the user's locale
-
                 speakText(`${formattedDate} ${cityName} tempreature is ${item.main.temp} degree celcious and a number of cloud in sky is ${item.clouds.all} with${item.weather[0].description} and the wind speed is ${item.wind.speed}kilometer prati hours.`)
             }
         }

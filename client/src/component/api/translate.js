@@ -40,22 +40,27 @@ const transl = async (sentence, foundLanguage) => {
         console.error("Translation error:", error);
     }
 };
-const translateTextToHindi = async () => {
+const translateTextToHindi = async (animationupdate, loadingupdate) => {
     try {
-        await speakText("Ok, I think you want to translate into which language. Please speak the target language.");
-        console.log("Lanugage")
+        await speakText("Ok, I think you want to use translate. Please speak translate language.");
+        animationupdate(true);
         let targetLanguage = await takeInput();
-        console.log(targetLanguage)
+        loadingupdate(true);
         if (targetLanguage) {
             // Fetch the language code for the target language
             const { data } = await axios.get("https://pkgstore.datahub.io/core/language-codes/language-codes_json/data/97607046542b532c395cf83df5185246/language-codes_json.json");
+            loadingupdate(false);
+            animationupdate(false);
             const foundLanguage = (data.find(language => language.English === targetLanguage));
             if (foundLanguage) {
                 await speakText("Please speak the sentence or word that you want to translate.");
+                animationupdate(true);
                 let sentence = await takeInput();
                 if (sentence) {
+                    animationupdate(false);
                     return transl(sentence, foundLanguage.alpha2);
                 }
+                animationupdate(false);f
             } else {
                 return await speakText("Language not found.");
             }
@@ -64,4 +69,4 @@ const translateTextToHindi = async () => {
         console.error("Error:", err);
     }
 }
-export { translateTextToHindi,takeInput };
+export { translateTextToHindi, takeInput };

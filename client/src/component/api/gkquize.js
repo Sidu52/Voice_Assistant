@@ -57,10 +57,12 @@ const takeInput = () => {
     });
 };
 
-async function gkquize() {
+async function gkquize(animationupdate, loadingupdate) {
     try {
         var score = 0;
+        loadingupdate(true);
         const { data } = await axios.get("https://the-trivia-api.com/v2/questions");
+        loadingupdate(false);
         for (let i = 0; i < data.length; i++) {
             const question = data[i].question;
             const correctAnswer = data[i].correctAnswer;
@@ -70,23 +72,26 @@ async function gkquize() {
             const options = ['A', 'B', 'C', 'D'];
             const answers = [...incorrectAnswers, correctAnswer];
             shuffleArray(answers);
-
             for (let j = 0; j < answers.length; j++) {
                 await speakText(`${options[j]}. ${answers[j]}`);
             }
             await speakText("Choose from options A B C or D");
+            animationupdate(true);
             let answer = await takeInput();
+            animationupdate(false);
             const opt = answer?.split(" ");
             if (answer) {
                 answer = opt[opt.length - 1]?.toUpperCase();
             }
             var k = 0;
             while (answer != "A" && answer != "B" && answer != "C" && answer != "D" && k != 3) {
-                await speakText("Please gave answer in correct form for example option A option B option C option D");;
+                await speakText("Please gave answer in correct form for example option A option B option C option D");
+                animationupdate(true);
                 answer = await takeInput();
+                animationupdate(false);
                 k++;
             }
-            // const opt = answer.split(" ");
+
             const index = options.indexOf(answer);
             if (answers[index] === correctAnswer) {
                 await speakText("Your answer is correct");
