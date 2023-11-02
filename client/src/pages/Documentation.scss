@@ -1,15 +1,12 @@
-/* button > svg {
-    width: 34px;
-    margin-left: 10px;
-    transition: transform .3s ease-in-out;
-  } */
 
-button:hover svg {
-  transform: translateX(5px);
+.btn_hovering:hover .first_text {
+  top: -100%;
 }
 
-button:active {
-  transform: scale(0.95);
+.btn_hovering:hover .secound_text {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 

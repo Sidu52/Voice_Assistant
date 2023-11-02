@@ -9,7 +9,12 @@
 }
 
 .App{
-  background-color: #000;
+  background-color: #070a0f;
+  min-height: 100vh;
+}
+
+.main{
+  /* background-color: #000; */
   min-height: 100vh;
 }
 

@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import annyang from 'annyang';
 import axios from 'axios';
+import { HiOutlineInformationCircle } from 'react-icons/hi';
 import { URL } from '../../endpointURL';
 import { FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
 import { speakText } from './text_to_speack/speaktext';
@@ -20,6 +22,8 @@ const VoiceAssistant = () => {
     const [listening, setListening] = useState(false);
     const [anayan, setAnayan] = useState(false);
     const [videoURL, setVideoURL] = useState("");
+
+    const navigate = useNavigate();
 
     const commands = {
         'Good morning *name': () => speak('Hy Boss Good morning'),
@@ -258,124 +262,19 @@ const VoiceAssistant = () => {
         }
     }
 
-    // const findCategory = async (userInput) => {
-    //     try {
-    //         updateloadingValue(true)
-    //         annyang.abort();
-    //         setListening(false)
-
-    //         var substrings = [];
-    //         const { data } = await axios.post(`${URL}/findfunction`, { userInput });
-    //         if (data) {
-    //             updateloadingValue(false);
-    //             updateSpeakValue(true);
-    //         }
-
-    //         if (data.data == "Hello") {
-    //             await speakText("Hy Boss, How may I help you")
-    //         } else if (data.data == "Aboutyou") {
-    //             await speakText("I'm good Boss. I am always ready for you any conddition")
-    //         } else if (data.data == "SidhuAlston") {
-    //             await speakText("Hy this side jarvis, Sidhu Alston is a full stack web developer and content creator on youtube. if you want to know more about sidhu alston say Sidhu Alston Resume")
-    //         } else if (data.data == "disturb") {
-    //             await speakText("oo, But why are you sad I have a some joke for you or you listen Dinchak Pooja Song");
-    //         } else if (data.data == "about_us") {
-    //             await speakText("It is a credential information.")
-    //             await speakText("I have not a authenticate for sharing my credential information with anyone.")
-    //             await speakText("But i am create using mern technology React.js, Node.js, Exprees.js and Mongose for storing data for updating myself.")
-    //         } else if (data.data == "date" || data.data == "time") {
-    //             await getCurrentTimeAndDate(data.data);
-    //         } else if (data.data == "english_joke") {
-    //             await speakText("Yes Boss I have a latest hindi and english jokes for you");
-    //             await tellJoke();
-    //         } else if (data.data == "hindi_joke") {
-    //             // speakText("ओके हिंदी में चुटकुले सुना रहा हूं", "HI");/
-    //             await speakText("ओके", "HI");
-    //             updateSpeakValue(false)
-    //             updateloadingValue(true)
-    //             const { data } = await axios.get('https://hindi-jokes-api.onrender.com/jokes?api_key=bd4c780c41c74b6af4ae1f31bc5d');
-    //             if (data) {
-    //                 updateloadingValue(false)
-    //                 updateSpeakValue(true)
-    //                 await speakText(data.jokeContent.slice(0, -7), "HI");
-    //             }
-    //         } else if (data.data == "gkquize") {
-    //             await speakText("ok I think you want to play Quize game, i am Quize game")
-    //             await gkquize()
-    //         } else if (data.data == "wikipidia") {
-    //             await searchWiki(userInput)
-    //         } else if (data.data == "translate") {
-    //             await translateTextToHindi(userInput)
-    //         } else if (data.data == "family_info") {
-    //             await speakText("Sorry, I am a AI voice assistant, So i have not a family but i have some friend Google Assistant, Siri, Bing others friend")
-    //         } else if (data.data === "country" || data.data === "state" || data.data === "city" || data.data === "country_capital" || data.data === "country_population" || data.data == "City_Weather" || data.data == "weather_forecast") {
-    //             const inputArray = userInput.split(" ");
-    //             // Loop through the words and generate substrings
-    //             for (var i = 0; i < inputArray.length; i++) {
-    //                 for (var j = i; j < inputArray.length; j++) {
-    //                     var substring = inputArray.slice(i, j + 1).join(" ");
-    //                     substrings.push(substring);
-    //                 }
-    //             }
-    //             await tellCountryStateCity(data.data, substrings);
-    //         } else if (data.data == "play_youtube") {
-    //             const data = await youtube(userInput);
-    //             setIframeVisible(true)
-    //             setVideoURL(`https://www.youtube.com/embed/${data}?autoplay=1`)
-    //         } else if (data.data === "Not_Category") {
-    //             await speakText("Sorry, I don't know much more about that, but with time I am updating myself.");
-    //         }
-    //         updateSpeakValue(false)
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-    // }
-
-    // return (
-    //     <div className='main_container'>
-    //         <div className='youtube_video_container'>
-    //             {iframeVisible ?
-    //                 <div>
-    //                     <iframe src={videoURL} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-    //                 </div>
-    //                 :
-    //                 ""
-    //             }
-    //         </div>
-    //         <div className="mic_animation_container">
-    //             <div className="home_container1">
-    //                 {loading.loading ?
-    //                     <div class="loader"></div>
-    //                     :
-    //                     <div className="mic" onClick={handleClick}>
-    //                         {listening ? <FaMicrophone style={{ color: "#000" }} /> : <FaMicrophoneSlash style={{ color: "red" }} />}
-    //                     </div>
-    //                 }
-    //                 <div className='circle_container' style={{ animationIterationCount: listening ? "infinite" : "" }}>
-    //                     <span></span>
-    //                     <span></span>
-    //                     <span></span>
-    //                     <span></span>
-    //                 </div>
-
-    //             </div>
-    //             <ul class="wave-menu" style={{ width: state.speak ? "243px" : 0, height: state.speak ? "43px" : 0, borderWidth: state.speak ? "4px" : 0 }}>
-    //                 <li></li>
-    //                 <li></li>
-    //                 <li></li>
-    //                 <li></li>
-    //                 <li></li>
-    //                 <li></li>
-    //                 <li></li>
-    //                 <li></li>
-    //                 <li></li>
-    //                 <li></li>
-    //             </ul>
-    //         </div>
-    //     </div>
-    // );
     return (
         <div className="main_container">
+            <div onClick={() => { navigate('/doc') }} className="group absolute top-2 right-2">
+                <button className="Btn flex items-center justify-start gap-2 w-12 h-12 rounded-full overflow-hidden cursor-pointer relative overflow-hidden transition-all duration-300 linear shadow-md bg-teal-400 group-hover:w-32  group-hover:rounded-xl group-hover:duration-300 group-active:transform group-active:translate-x-2 group-active:translate-y-2">
+                    <div className="w-full transition-all duration-300 flex items-center justify-center">
+                        <HiOutlineInformationCircle className='absolute transition-all duration-300 text-white text-2xl group-hover:left-6' />
+                    </div>
+                    <div className="absolute right-0 w-0 opacity-0 text-white text-lg font-semibold transition-all duration-300 group-hover:w-full group-hover:opacity-100 group-hover:p-2">
+                        Doc
+                    </div>
+                </button>
+            </div>
+
             <div className="youtube_video_container">
                 {iframeVisible ? (
                     <div>

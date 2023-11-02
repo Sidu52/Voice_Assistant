@@ -5,15 +5,13 @@ import VoiceAssistant from './component/VoiceAssistant';
 import Documentaion from './pages/Documentaion';
 
 
-
-
 function App() {
   return (
-    <div>
+    <div className='App'>
 
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<VoiceAssistant className="App" />} />
+          <Route path="/" element={<VoiceAssistant />} />
           <Route path="/doc" element={<Documentaion />} />
         </Routes>
       </BrowserRouter>
