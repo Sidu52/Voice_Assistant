@@ -17,6 +17,7 @@
     "country-state-city": "^3.2.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "framer-motion": "^10.16.4",
     "mongoose": "^7.6.2",
     "node-nlp": "^4.27.0"
   },

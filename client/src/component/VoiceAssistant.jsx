@@ -11,17 +11,22 @@ import youtube from './api/youtubeAPI';
 import tellCountryStateCity from './api/tellCountryStateCity';
 import { translateTextToHindi } from './api/translate';
 import { searchWiki } from './api/wikipidia';
+import { playMusic } from './api/playmusic';
+import { BsFillMicFill } from 'react-icons/bs';
 import stateContext from '../mycontext/Mycontext';
 import getCurrentTimeAndDate from './api/findDateTime';
 import gkquize from './api/gkquize';
 import todo from './api/todo';
+import audiogif from '../assets/image/sirilike.gif';
 
 const VoiceAssistant = () => {
     const { state, loading, updateloadingValue, updateSpeakValue } = useContext(stateContext);
     const [iframeVisible, setIframeVisible] = useState(false);
+    const [michidden, setMichidden] = useState(true);
     const [listening, setListening] = useState(false);
     const [anayan, setAnayan] = useState(false);
     const [videoURL, setVideoURL] = useState("");
+    const [musicURL, setMusicURL] = useState("");
 
     const navigate = useNavigate();
 
@@ -36,10 +41,25 @@ const VoiceAssistant = () => {
         'Who are you': () => speak('I am a voice assistant Sidhu Alston created me.'),
         'Who created you': () => speak('Sidhu Alston created me.'),
         'I am sad': () => speak("Sorry Boss, But why are you sad I have a some joke for you or you listen Dinchak Pooja Song"),
+        'I like you *name': () => speak("oo realy it is impressive but sorry i am commited for other one"),
+        'I love you *name': () => speak("oo realy it is impressive but sorry i am commited for other one"),
+        'I hate you *name': () => speak("oo why are you hate me if i make a mistake so sorry."),
+
         'Sidhu Alston Resume': () => openResume(),
         'Sidhu elstone Resume': () => openResume(),
         'open *name': (name) => openWebsite(name),
         'Open *name': (name) => openWebsite(name),
+        // 'Play *name music': (name) => Music(name),
+        // 'play music *name': (name) => Music(name),
+        // 'Music play *name': (name) => Music(name),
+        // 'play *name': (name) => Music(name),
+        // 'Play *name song': (name) => Music(name),
+        // 'play song *name': (name) => Music(name),
+        // 'song play *name': (name) => Music(name),
+        // 'play *name': (name) => Music(name),
+        // 'play song by *name': (name) => Music(name),
+
+        // '*name music play': (name) => Music(name),
         //Youtube command
         'close youtube': () => closeIframe(),
         'close music': () => closeIframe(),
@@ -55,8 +75,10 @@ const VoiceAssistant = () => {
                 annyang.addCommands(commands);
                 annyang.addCallback('result', (phrases) => {
                     console.log(phrases[0])
+                    const ansss = isUserInputInCommands(phrases[0])
+                    console.log(ansss)
                     // Check if userInput is not in the commands
-                    if (!isUserInputInCommands(phrases[0])) {
+                    if (!ansss) {
                         findCategory(phrases[0]);
                     }
                 });
@@ -83,6 +105,11 @@ const VoiceAssistant = () => {
     const loadingupdate = async (value) => {
         updateloadingValue(value)
         return;
+    }
+
+    const handlemicshow = () => {
+        console.log("Enter")
+        setMichidden(true)
     }
 
     //Speaking precomman
@@ -141,6 +168,7 @@ const VoiceAssistant = () => {
 
             const { data } = await axios.post(`${URL}/findfunction`, { userInput });
 
+            console.log("Find category", data)
             if (data) {
                 updateloadingValue(false);
                 updateSpeakValue(true);
@@ -198,6 +226,7 @@ const VoiceAssistant = () => {
                     await handleCountryStateCity(data.data, userInput);
                     break;
                 case "play_youtube":
+
                     await handleYouTube(userInput);
                     break;
                 case "create_todolsit":
@@ -252,11 +281,44 @@ const VoiceAssistant = () => {
         await tellCountryStateCity(category, substrings);
     }
 
+    // const Music = async (name) => {
+    //     console.log("SSS", name)
+
+    // }
+
     async function handleYouTube(userInput) {
         try {
-            const videoData = await youtube(userInput);
-            setIframeVisible(true);
-            setVideoURL(`https://www.youtube.com/embed/${videoData}?autoplay=1`);
+            const arr = ['play', 'music', 'song', 'run', 'i', 'want', 'youtube', 'video', 'audio'];
+            const sanitizedInput = userInput.split(' ').filter(word => !arr.includes(word)).join(' ');
+            // Check if the modified userinput contains "video" and "YouTube"
+            const containsVideo = userInput.toLowerCase().includes('video');
+            const containsYouTube = userInput.toLowerCase().includes('youtube');
+            if (containsYouTube || containsVideo) {
+                const videoData = await youtube(userInput);
+                setMichidden(false);
+                setIframeVisible(true);
+                setVideoURL(`https://www.youtube.com/embed/${videoData}?autoplay=1`);
+
+            } else {
+                loadingupdate(true)
+                await speakText(`Ok music searching`)
+                const url = await playMusic(sanitizedInput);
+                const propertyName = '320_kbps';
+                const finalurl = url[propertyName];
+                updateloadingValue(false)
+                setAnayan(false);
+                setListening(false);
+                setMichidden(false);
+                setMusicURL(finalurl);
+
+                // setAudioframeVisble(true);
+                // Set a timeout to hide the audio frame after 30 seconds
+                // setTimeout(() => {
+                //     setAudioframeVisble(false);
+                // }, 30*1000); // 30,000 milliseconds = 30 seconds
+            }
+
+
         } catch (err) {
             console.log(err);
         }
@@ -264,7 +326,7 @@ const VoiceAssistant = () => {
 
     return (
         <div className="main_container">
-            <div onClick={() => { navigate('/doc') }} className="group absolute top-2 right-2">
+            {michidden ? <div onClick={() => { navigate('/doc') }} className="group absolute top-2 right-2">
                 <button className="Btn flex items-center justify-start gap-2 w-12 h-12 rounded-full overflow-hidden cursor-pointer relative overflow-hidden transition-all duration-300 linear shadow-md bg-teal-400 group-hover:w-32  group-hover:rounded-xl group-hover:duration-300 group-active:transform group-active:translate-x-2 group-active:translate-y-2">
                     <div className="w-full transition-all duration-300 flex items-center justify-center">
                         <HiOutlineInformationCircle className='absolute transition-all duration-300 text-white text-2xl group-hover:left-6' />
@@ -272,25 +334,50 @@ const VoiceAssistant = () => {
                     <div className="absolute right-0 w-0 opacity-0 text-white text-lg font-semibold transition-all duration-300 group-hover:w-full group-hover:opacity-100 group-hover:p-2">
                         Doc
                     </div>
+                    {/* <div className="absolute right-0 w-0 opacity-0 text-white text-lg font-semibold transition-all duration-300 group-hover:w-full group-hover:opacity-100 group-hover:p-2">
+                        Doc
+                    </div> */}
                 </button>
-            </div>
+            </div> :
+                <div onClick={handlemicshow} className="group absolute top-2 right-2">
+                    <button className="Btn flex items-center justify-start gap-2 w-12 h-12 rounded-full overflow-hidden cursor-pointer relative overflow-hidden transition-all duration-300 linear shadow-md bg-teal-400 group-hover:w-32  group-hover:rounded-xl group-hover:duration-300 group-active:transform group-active:translate-x-2 group-active:translate-y-2">
+                        <div className="w-full transition-all duration-300 flex items-center justify-center">
+                            <BsFillMicFill className='absolute transition-all duration-300 text-white text-2xl group-hover:left-6' />
+                        </div>
+                        <div className="absolute right-0 w-0 opacity-0 text-white text-lg font-semibold transition-all duration-300 group-hover:w-full group-hover:opacity-100 group-hover:p-2">
+                            Show
+                        </div>
+                        {/* <div className="absolute right-0 w-0 opacity-0 text-white text-lg font-semibold transition-all duration-300 group-hover:w-full group-hover:opacity-100 group-hover:p-2">
+                    Doc
+                </div> */}
+                    </button>
+                </div>
+            }
 
-            <div className="youtube_video_container">
-                {iframeVisible ? (
-                    <div>
-                        <iframe
-                            src={videoURL}
-                            title="YouTube video player"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowFullScreen
-                        ></iframe>
-                    </div>
-                ) : (
-                    ''
-                )}
-            </div>
-            <div className="mic_animation_container">
+            {!michidden ? <div>
+                <div className="youtube_video_container">
+                    {iframeVisible ? (
+                        <div>
+                            <iframe
+                                src={videoURL}
+                                title="YouTube video player"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowFullScreen
+                                style={{ width: '100vw', height: '100vh' }}
+                            ></iframe>
+                        </div>
+                    ) : <div className="audio">
+                        <div className='flex items-center justify-center '>
+                            <audio className='absolute bottom-0 w-full' src={musicURL} autoPlay controls ></audio>
+                            <img className='w-screen' style={{ height: "96vh " }} src={audiogif} alt="" />
+                        </div>
+                    </div>}
+                </div>
+
+            </div> : ""}
+
+            {michidden ? <div className="mic_animation_container">
                 <div className="home_container1">
                     {loading.loading ? (
                         <div className="loader"></div>
@@ -310,7 +397,9 @@ const VoiceAssistant = () => {
                         <li key={index}></li>
                     ))}
                 </ul>
-            </div>
+            </div> : ""}
+
+
         </div>
     );
 };
