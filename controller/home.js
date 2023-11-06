@@ -18,6 +18,10 @@ const manager = new NlpManager({ languages: ['en'], forceNER: true });
 // manager.addAnswer('en', 'greeting.aboutyou', 'Aboutyou');
 // manager.addAnswer('en', 'greeting.wiss', 'wiss');
 // manager.addAnswer('en', 'greetings.bye', 'Bye');
+// manager.addAnswer('en', 'love_jarvis', 'love_jarvis');
+// manager.addAnswer('en', 'hate_jarvis', 'hate_jarvis');
+// manager.addAnswer('en', 'disturb', 'disturb');
+
 // manager.addAnswer('en', 'weather', 'City_Weather');
 // manager.addAnswer('en', 'country', 'country');
 // manager.addAnswer('en', 'country_capital', 'country_capital');
@@ -44,6 +48,7 @@ const manager = new NlpManager({ languages: ['en'], forceNER: true });
 // manager.addAnswer('en', 'delete_todolsit', 'delete_todolsit');
 // manager.addAnswer('en', 'get_todolsit', 'get_todolsit');
 // manager.addAnswer('en', 'getAll_todolsit', 'getAll_todolsit');
+// manager.addAnswer('en', 'Stop', 'Stop');
 
 (async () => {
     await manager.load();

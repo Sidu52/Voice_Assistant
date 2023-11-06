@@ -345,5 +345,27 @@
    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
   }
  }
+
+ .img_audio_container{
+  height: 94vh;
+ }
  
- 
+
+    @media screen and (max-width: 650px) {
+      .img_audio_container{
+        height: 34vh;
+      }
+      .audio_controller{
+        top: 67%;
+      }
+    }
+
+    @media screen and (max-width: 999px) {
+      .card_cmd_container{
+        grid-template-columns: 100%;
+        grid-auto-flow: row;
+      }
+      ul li{
+        font-size: 22px;
+      }
+    }

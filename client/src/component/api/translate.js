@@ -20,12 +20,11 @@ const takeInput = () => {
     });
 };
 
-const transl = async (sentence, foundLanguage) => {
+const transl = async (sentence, from, to) => {
     const encodedParams = new URLSearchParams();
     encodedParams.set('q', sentence);
-    encodedParams.set('source', 'en'); // Source language is English
-    encodedParams.set('target', foundLanguage); // Target language is Hindi
-
+    encodedParams.set('source', from); // Source language is English
+    encodedParams.set('target', to); // Target language is Hindi
     try {
         const { data } = await axios.post("https://google-translate1.p.rapidapi.com/language/translate/v2", encodedParams, {
             headers: {
@@ -35,38 +34,49 @@ const transl = async (sentence, foundLanguage) => {
                 'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
             },
         });
-        await speakText(data.data.translations[0].translatedText, foundLanguage);//IT is not working speakText only speak endlishS
+        await speakText(data.data.translations[0].translatedText, to);//IT is not working speakText only speak endlishS
     } catch (error) {
         console.error("Translation error:", error);
     }
 };
+
 const translateTextToHindi = async (animationupdate, loadingupdate) => {
     try {
-        await speakText("Ok, I think you want to use translate. Please speak translate language.");
+        await speakText("ok, I think you want to use translate. Please speak first language.");
+        const { data } = await axios.get("https://pkgstore.datahub.io/core/language-codes/language-codes_json/data/97607046542b532c395cf83df5185246/language-codes_json.json");
         animationupdate(true);
-        let targetLanguage = await takeInput();
-        loadingupdate(true);
-        if (targetLanguage) {
-            // Fetch the language code for the target language
-            const { data } = await axios.get("https://pkgstore.datahub.io/core/language-codes/language-codes_json/data/97607046542b532c395cf83df5185246/language-codes_json.json");
-            loadingupdate(false);
-            animationupdate(false);
-            const foundLanguage = (data.find(language => language.English === targetLanguage));
-            if (foundLanguage) {
-                await speakText("Please speak the sentence or word that you want to translate.");
-                animationupdate(true);
-                let sentence = await takeInput();
-                if (sentence) {
-                    animationupdate(false);
-                    return transl(sentence, foundLanguage.alpha2);
-                }
-                animationupdate(false);f
-            } else {
-                return await speakText("Language not found.");
-            }
+        let From = await takeInput();
+        const FromLanguage = (data.find(language => language.English === From));
+        if (!FromLanguage) {
+            return await speakText("Sorry try again");
         }
-    } catch (err) {
+        animationupdate(false);
+        await speakText(`Your first language is ${From}`);
+        await speakText(`Please speak target language.`);
+        animationupdate(true);
+        let target = await takeInput();
+        const targetLanguage = (data.find(language => language.English === target));
+        animationupdate(false);
+        await speakText(`Your target language is ${target}`);
+        loadingupdate(true);
+        if (!targetLanguage) {
+            return await speakText("Target language not found.");
+        }
+        loadingupdate(false);
+        animationupdate(false);
+        await speakText("Please speak the sentence or word that you want to translate.");
+        animationupdate(true);
+        let sentence = await takeInput();
+        if (sentence) {
+            animationupdate(false);
+            return transl(sentence, FromLanguage.alpha2, targetLanguage.alpha2);
+        }
+        animationupdate(false);
+    }
+    catch (err) {
         console.error("Error:", err);
+        return await speakText("Sorry Somthing wrong with us.")
     }
 }
+
 export { translateTextToHindi, takeInput };

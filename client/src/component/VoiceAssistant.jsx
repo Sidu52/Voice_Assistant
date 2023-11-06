@@ -18,6 +18,9 @@ import getCurrentTimeAndDate from './api/findDateTime';
 import gkquize from './api/gkquize';
 import todo from './api/todo';
 import audiogif from '../assets/image/sirilike.gif';
+import getdata from '../data/jokeData';
+import getDistance from './api/distanceApi';
+import mapNavigate from './api/mapApi';
 
 const VoiceAssistant = () => {
     const { state, loading, updateloadingValue, updateSpeakValue } = useContext(stateContext);
@@ -27,9 +30,7 @@ const VoiceAssistant = () => {
     const [anayan, setAnayan] = useState(false);
     const [videoURL, setVideoURL] = useState("");
     const [musicURL, setMusicURL] = useState("");
-
     const navigate = useNavigate();
-
     const commands = {
         'Good morning *name': () => speak('Hy Boss Good morning'),
         'Good afternoon *name': () => speak('Hy Boss Good afternoon'),
@@ -41,32 +42,11 @@ const VoiceAssistant = () => {
         'Who are you': () => speak('I am a voice assistant Sidhu Alston created me.'),
         'Who created you': () => speak('Sidhu Alston created me.'),
         'I am sad': () => speak("Sorry Boss, But why are you sad I have a some joke for you or you listen Dinchak Pooja Song"),
-        'I like you *name': () => speak("oo realy it is impressive but sorry i am commited for other one"),
-        'I love you *name': () => speak("oo realy it is impressive but sorry i am commited for other one"),
-        'I hate you *name': () => speak("oo why are you hate me if i make a mistake so sorry."),
-
         'Sidhu Alston Resume': () => openResume(),
         'Sidhu elstone Resume': () => openResume(),
         'open *name': (name) => openWebsite(name),
         'Open *name': (name) => openWebsite(name),
-        // 'Play *name music': (name) => Music(name),
-        // 'play music *name': (name) => Music(name),
-        // 'Music play *name': (name) => Music(name),
-        // 'play *name': (name) => Music(name),
-        // 'Play *name song': (name) => Music(name),
-        // 'play song *name': (name) => Music(name),
-        // 'song play *name': (name) => Music(name),
-        // 'play *name': (name) => Music(name),
-        // 'play song by *name': (name) => Music(name),
-
-        // '*name music play': (name) => Music(name),
-        //Youtube command
-        'close youtube': () => closeIframe(),
-        'close music': () => closeIframe(),
-        'close video': () => closeIframe(),
-        'stop music': () => closeIframe(),
-        'stop youtube': () => closeIframe(),
-        'stop video': () => closeIframe(),
+        'Distance': () => getDistance(),
     };
     useEffect(() => {
         if (annyang) {
@@ -76,7 +56,6 @@ const VoiceAssistant = () => {
                 annyang.addCallback('result', (phrases) => {
                     console.log(phrases[0])
                     const ansss = isUserInputInCommands(phrases[0])
-                    console.log(ansss)
                     // Check if userInput is not in the commands
                     if (!ansss) {
                         findCategory(phrases[0]);
@@ -94,7 +73,13 @@ const VoiceAssistant = () => {
             annyang.removeCallback('result');
         };
     }, [listening]);
+    const Stop = async () => {
+        setAnayan(false);
+        setListening(false);
+        updateSpeakValue(false)
+        annyang.abort();
 
+    }
     //function for speaking
     const animationupdate = async (value) => {
         setAnayan(value);
@@ -106,12 +91,13 @@ const VoiceAssistant = () => {
         updateloadingValue(value)
         return;
     }
-
     const handlemicshow = () => {
-        console.log("Enter")
         setMichidden(true)
+        annyang.start();
+        setListening(true)
+        setAnayan(true);
+        updateSpeakValue(false);
     }
-
     //Speaking precomman
     const speak = async (message) => {
         annyang.abort();
@@ -119,7 +105,11 @@ const VoiceAssistant = () => {
         setAnayan(false);
         updateSpeakValue(true);
         await speakText(message);
-        updateSpeakValue(false);
+        // updateSpeakValue(false);
+        // annyang.start();
+        // setListening([true])
+        // setAnayan(true);
+        // return
     }
 
     //Resume
@@ -150,7 +140,6 @@ const VoiceAssistant = () => {
     const openWebsite = (name) => {
         // Make sure the name is in a valid format (e.g., without spaces and special characters)
         const sanitizedName = name.replace(/\s/g, '');
-
         if (sanitizedName) {
             const url = `https://www.${sanitizedName}.com`;
             window.location.href = url
@@ -167,25 +156,20 @@ const VoiceAssistant = () => {
             setAnayan(false)
 
             const { data } = await axios.post(`${URL}/findfunction`, { userInput });
-
-            console.log("Find category", data)
             if (data) {
                 updateloadingValue(false);
                 updateSpeakValue(true);
             }
-
             switch (data.data) {
                 case "Hello":
-                    await speakText("Hy Boss, How may I help you");
-                    break;
-                case "Aboutyou":
-                    await speakText("I'm good Boss. I am always ready for you any condition");
-                    break;
-                case "SidhuAlston":
-                    await speakText("Hy this side jarvis, Sidhu Alston is a full stack web developer and content creator on youtube. if you want to know more about sidhu alston say Sidhu Alston Resume");
-                    break;
+                case "Bye":
                 case "disturb":
-                    await speakText("oo, But why are you sad I have some joke for you or you can listen to Dinchak Pooja Song");
+                case "Aboutyou":
+                case "love_jarvis":
+                case "hate_jarvis":
+                case "SidhuAlston":
+                case "family_info":
+                    await getdata(data.data);
                     break;
                 case "about_us":
                     await speakText("It is credential information.");
@@ -195,6 +179,9 @@ const VoiceAssistant = () => {
                 case "date":
                 case "time":
                     await getCurrentTimeAndDate(data.data);
+                    break;
+                case "Stop":
+                    await Stop();
                     break;
                 case "english_joke":
                     await speakText("Yes Boss, I have the latest English jokes for you");
@@ -213,8 +200,8 @@ const VoiceAssistant = () => {
                 case "translate":
                     await translateTextToHindi(animationupdate, loadingupdate);
                     break;
-                case "family_info":
-                    await speakText("Sorry, I am an AI voice assistant, so I do not have a family but I have some friends like Google Assistant, Siri, Bing, and others");
+                case "mapNavigation":
+                    await mapNavigate(animationupdate, loadingupdate);
                     break;
                 case "country":
                 case "state":
@@ -226,7 +213,6 @@ const VoiceAssistant = () => {
                     await handleCountryStateCity(data.data, userInput);
                     break;
                 case "play_youtube":
-
                     await handleYouTube(userInput);
                     break;
                 case "create_todolsit":
@@ -242,8 +228,13 @@ const VoiceAssistant = () => {
                 default:
                     break;
             }
-
-            updateSpeakValue(false);
+            if (data.data != "Stop" && data.data != "play_youtube") {
+                updateSpeakValue(false);
+                annyang.abort();
+                setListening(true);
+                setAnayan(true)
+                setAnayan(true)
+            }
         } catch (err) {
             console.log(err);
         }
@@ -265,7 +256,6 @@ const VoiceAssistant = () => {
             console.log(err);
         }
     }
-
     async function handleCountryStateCity(category, userInput) {
         const inputArray = userInput.split(" ");
 
@@ -277,15 +267,8 @@ const VoiceAssistant = () => {
                 substrings.push(substring.join(" "));
             }
         }
-
         await tellCountryStateCity(category, substrings);
     }
-
-    // const Music = async (name) => {
-    //     console.log("SSS", name)
-
-    // }
-
     async function handleYouTube(userInput) {
         try {
             const arr = ['play', 'music', 'song', 'run', 'i', 'want', 'youtube', 'video', 'audio'];
@@ -301,59 +284,49 @@ const VoiceAssistant = () => {
 
             } else {
                 loadingupdate(true)
-                await speakText(`Ok music searching`)
+                speakText(`Ok music searching`)
+                updateSpeakValue(false)
                 const url = await playMusic(sanitizedInput);
                 const propertyName = '320_kbps';
                 const finalurl = url[propertyName];
+               
                 updateloadingValue(false)
                 setAnayan(false);
                 setListening(false);
                 setMichidden(false);
                 setMusicURL(finalurl);
-
                 // setAudioframeVisble(true);
                 // Set a timeout to hide the audio frame after 30 seconds
                 // setTimeout(() => {
                 //     setAudioframeVisble(false);
                 // }, 30*1000); // 30,000 milliseconds = 30 seconds
             }
-
-
         } catch (err) {
             console.log(err);
         }
     }
-
     return (
         <div className="main_container">
-            {michidden ? <div onClick={() => { navigate('/doc') }} className="group absolute top-2 right-2">
+            {michidden ? <div onClick={() => { navigate('/doc') }} className="group absolute top-2 right-2 z-10">
                 <button className="Btn flex items-center justify-start gap-2 w-12 h-12 rounded-full overflow-hidden cursor-pointer relative overflow-hidden transition-all duration-300 linear shadow-md bg-teal-400 group-hover:w-32  group-hover:rounded-xl group-hover:duration-300 group-active:transform group-active:translate-x-2 group-active:translate-y-2">
-                    <div className="w-full transition-all duration-300 flex items-center justify-center">
+                    <div className="w-full transition-all duration-300 flex items-center justify-center gap-4">
                         <HiOutlineInformationCircle className='absolute transition-all duration-300 text-white text-2xl group-hover:left-6' />
                     </div>
                     <div className="absolute right-0 w-0 opacity-0 text-white text-lg font-semibold transition-all duration-300 group-hover:w-full group-hover:opacity-100 group-hover:p-2">
                         Doc
                     </div>
-                    {/* <div className="absolute right-0 w-0 opacity-0 text-white text-lg font-semibold transition-all duration-300 group-hover:w-full group-hover:opacity-100 group-hover:p-2">
-                        Doc
-                    </div> */}
                 </button>
             </div> :
-                <div onClick={handlemicshow} className="group absolute top-2 right-2">
-                    <button className="Btn flex items-center justify-start gap-2 w-12 h-12 rounded-full overflow-hidden cursor-pointer relative overflow-hidden transition-all duration-300 linear shadow-md bg-teal-400 group-hover:w-32  group-hover:rounded-xl group-hover:duration-300 group-active:transform group-active:translate-x-2 group-active:translate-y-2">
-                        <div className="w-full transition-all duration-300 flex items-center justify-center">
+                <div onClick={handlemicshow} className="group absolute top-2 right-2 z-10">
+                    <button className="Btn flex items-center justify-start gap-4 w-12 h-12 rounded-full overflow-hidden cursor-pointer relative overflow-hidden transition-all duration-300 linear shadow-md bg-teal-400 group-hover:w-32  group-hover:rounded-xl group-hover:duration-300 group-active:transform group-active:translate-x-2 group-active:translate-y-2">
+                        <div className="w-full transition-all duration-300 flex items-center justify-center gap-4">
                             <BsFillMicFill className='absolute transition-all duration-300 text-white text-2xl group-hover:left-6' />
                         </div>
                         <div className="absolute right-0 w-0 opacity-0 text-white text-lg font-semibold transition-all duration-300 group-hover:w-full group-hover:opacity-100 group-hover:p-2">
                             Show
                         </div>
-                        {/* <div className="absolute right-0 w-0 opacity-0 text-white text-lg font-semibold transition-all duration-300 group-hover:w-full group-hover:opacity-100 group-hover:p-2">
-                    Doc
-                </div> */}
                     </button>
-                </div>
-            }
-
+                </div>}
             {!michidden ? <div>
                 <div className="youtube_video_container">
                     {iframeVisible ? (
@@ -368,17 +341,16 @@ const VoiceAssistant = () => {
                             ></iframe>
                         </div>
                     ) : <div className="audio">
-                        <div className='flex items-center justify-center '>
-                            <audio className='absolute bottom-0 w-full' src={musicURL} autoPlay controls ></audio>
-                            <img className='w-screen' style={{ height: "96vh " }} src={audiogif} alt="" />
+                        <div className='flex items-center justify-center relative h-screen'>
+                            <audio className='audio_controller absolute bottom-0 w-full' src={musicURL} autoPlay controls ></audio>
+                            <img className='img_audio_container w-screen' src={audiogif} alt="" />
                         </div>
                     </div>}
                 </div>
-
             </div> : ""}
-
-            {michidden ? <div className="mic_animation_container">
+            {michidden ? <div className="mic_animation_container h-screen">
                 <div className="home_container1">
+
                     {loading.loading ? (
                         <div className="loader"></div>
                     ) : (
@@ -398,8 +370,6 @@ const VoiceAssistant = () => {
                     ))}
                 </ul>
             </div> : ""}
-
-
         </div>
     );
 };

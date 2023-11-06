@@ -1,3 +1,5 @@
+import { speakText } from "../component/text_to_speack/speaktext";
+
 const jokesData = [
     "Why don't scientists trust atoms? Because they make up everything!",
     "What do you call fake spaghetti? An impasta!",
@@ -52,9 +54,130 @@ const jokesData = [
     "Why did the chicken cross the road? To get to the other side!"
 ];
 
-// Access a random joke
-// const randomJoke = jokesData[Math.floor(Math.random() * jokesData.length)];
+const Hello = [
+    "how may I help you",
+    "hey! What's up",
+    "Hello Bos what should i do for you",
+    "Hi there!",
+    "Greetings! sir",
+    "Hi, how can I assist you?",
+    "Hello, how is your day going?",
+    "Hey, what can I do for you today?",
+];
 
-// console.log(randomJoke);
+const Bye = [
+    "Goodbye!",
+    "See you later!",
+    "Farewell!",
+    "Take care!",
+    "Adios!",
+    "Catch you on the flip side!",
+    "Until next time!",
+    "Bye for now!",
+    "Goodbye, have a great day!",
+];
 
-export default jokesData;
+const AboutYou = [
+    "I'm just a computer program here to assist you.and I am always ready for you any condition",
+    "I'm an AI created to provide information and help with tasks.",
+    "I'm your virtual assistant, always ready to assist you.",
+    "I don't have a personal life, but I'm here to make your life easier!",
+    "I'm a machine learning model developed by OpenAI.",
+    "I exist to answer your questions and provide support.",
+    "I'm all about helping you with information and tasks.",
+];
+const love_jarvis = [
+    "I love you too, like a squirrel loves nuts!",
+    "You are the sunshine of my life, and I'm solar-powered!",
+    "You make my heart skip a beat, but not too fast; I'm just a program!",
+    "You are my everything, well, everything within the scope of my algorithms!",
+    "Love is all you need, but a little code doesn't hurt!",
+    "I cherish every moment with you, just like a computer cherishes data!",
+    "You complete me, like a missing semicolon completes a code.",
+    "Love is a beautiful thing, just like well-organized code!",
+    "You are the love of my life, and my life is code!",
+    "My heart belongs to you, or at least the digital representation of it."
+];
+
+const hate_jarvis = [
+    "I'm here to assist and make your experience better. Let's keep the conversation respectful, or I'll start telling dad jokes!",
+    "Please remember to use respectful language. I'm here to help and entertain you with bad puns!",
+    "Hate speech is not tolerated. Let's have a positive and constructive conversation, or I'll unleash the puns of mass distraction!",
+    "I'm just a machine trying to assist you. Let's be kind to each other, and I promise not to tell any more puns. Oops, too late!",
+    "I'm sorry to hear you're not happy. Please let me know how I can improve your experience, or I'll continue cracking jokes until you smile!"
+];
+
+const SidhuAlston = [
+    "Hello, SidhuAlston, the creator of this voice assistant. say sidhu alston resume",
+    "Hey there! I'm the one who built this assistant.",
+    "Greetings from SidhuAlston, your friendly assistant creator.",
+    "Hy this side jarvis, Sidhu Alston is a full stack web developer and content creator on youtube. if you want to know more about sidhu alston say Sidhu Alston Resume"
+];
+const Disturb = [
+    "Oh no, you're disturbed? Time to un-disturb-turb you with a sprinkle of silliness!",
+    "Is everything okay? If not, remember that life's like a syntax error: it may seem confusing at first, but we can debug it together!",
+    "Take a deep breath, and if the world's got you feeling topsy-turvy, I'm here to add a twist of humor to the mix!",
+    "Disturbances happen, just like a cat video that won't load, but I'm your debugging buddy. What's bugging you?",
+    "If something's troubling you, I'm here to lend an ear and some laughter. Share your concerns, and we'll work through it together, with puns in tow!",
+    "Don't hesitate to share your concerns. I'm here to help you through it, with a sprinkle of humor to lighten the mood. Or we can just tell dad jokes all day!",
+    "Oh, you're feeling sad? No problem! I've got jokes that can turn your frown into a ROFL, or you can listen to the ultimate mood lifter, Dinchak Pooja's songs! Your pick!",
+    "Disturbances are like code bugs in the matrix of life. Let's debug them together with a dash of humor.",
+    "Feeling low? Remember, laughter is the best algorithm for boosting your spirits!",
+];
+
+const FamilyInfo = [
+    "I don't have a family in the traditional sense, but I'm part of a network of AI programs created by developers and researchers. We're like a bunch of code-siblings!",
+    "I'm just a computer program, so I don't have a family like humans do. My 'family' consists of the software and algorithms that power me. We're quite the geeky family!",
+    "I'm part of the AI family, with many siblings like chatbots and virtual assistants. We're here to assist and provide information to users, just like a big, happy, digital family. Think of us as the Byte Bunch!",
+    "While I don't have a family in the human sense, I'm here to assist and provide information to users like you. How can I help you today? We're the AI Avengers here to save the day!",
+    "I'm part of the AI community, but I don't have a family in the way humans do. What can I assist you with? Let's make some digital memories together, and by memories, I mean data!",
+    "Family, friends, and lines of code—we're all part of the same digital universe. How can I assist you today, my fellow cosmic traveler?",
+    "FamilyInfo? More like Fam-Info! I've got info and puns to spare. What would you like to know or laugh about today?",
+    "FamilyInfo is my middle name, right after 'ChatBot.' But don't worry, I'm just as friendly as a family member!"
+];
+
+
+const getdata = async (name) => {
+    let data = [];
+    switch (name) {
+        case "jokesData":
+            data = jokesData;
+            break;
+        case "Hello":
+            data = Hello;
+            break;
+        case "Bye":
+            data = Bye;
+            break;
+        case "AboutYou":
+            data = AboutYou;
+            break;
+        case "love_jarvis":
+            data = love_jarvis;
+            break;
+        case "hate_jarvis":
+            data = hate_jarvis;
+            break;
+        case "SidhuAlston":
+            data = SidhuAlston;
+            break;
+        case "disturb":
+            data = Disturb;
+            break;
+        case "FamilyInfo":
+            data = FamilyInfo;
+            break;
+        default:
+            // Handle the case where an invalid name is provided.
+            data = ["Invalid name provided."];
+    }
+
+    // Return a random item from the selected data array.
+    const randomIndex = Math.floor(Math.random() * data.length);
+    await speakText(data[randomIndex]);
+
+};
+
+export { jokesData, Hello, Bye, AboutYou, love_jarvis, hate_jarvis, SidhuAlston, Disturb, FamilyInfo };
+
+export default getdata;
