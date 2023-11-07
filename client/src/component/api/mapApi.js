@@ -119,27 +119,10 @@ const mapNavigate = async (animationupdate, loadingupdate) => {
     }
     catch (err) {
         console.error("Error:", err);
-        return await speakText("Sorry Somthing wrong with us.")
+        return await speakText("Somting Wrong with me try again")
     }
 }
 
-// async function mapNavigate(animationupdate, loadingupdate) {
-//     try {
-
-
-
-
-
-
-
-//         const distance = response.data; // The distance value
-//         console.log('Distance between Delhi and Mumbai:', distance);
-//         return distance;
-//     } catch (error) {
-//         console.error('Error:', error);
-//         return null;
-//     }
-// }
 
 export default mapNavigate;
 

@@ -26,7 +26,7 @@ async function getDistance() {
         return distance;
     } catch (error) {
         console.error('Error:', error);
-        return null;
+        return await speakText("Somting Wrong with me try again");
     }
 }
 

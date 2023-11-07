@@ -12,17 +12,19 @@ const playMusic = async (name) => {
             'X-RapidAPI-Host': 'jio-saavan-unofficial.p.rapidapi.com'
         }
     };
-
     try {
         const response = await axios.request(detailsOptions);
         const musicDetails = response.data;
-        console.log('Music Details:', musicDetails.results[0]);
+        console.log('Music Details:', musicDetails.results);
 
         // Once you have the music details, you can call another function to get the music URL
-        const music = await findMusicURL(musicDetails.results[0]);
-        return music.results[music.results.length - 1];
+        // const music = await findMusicURL(musicDetails.results[0]);
+
+        // return music.results[music.results.length - 1];
+        return musicDetails.results;
     } catch (error) {
         console.error(error);
+        return await speakText("Somting Wrong with me try again")
     }
 };
 
@@ -46,11 +48,12 @@ const findMusicURL = async (musicDetails) => {
         return musicURL;
     } catch (error) {
         console.error('Error:', error);
+        return await speakText("Somting Wrong with me try again")
     }
 };
 
 
 
 
-export { playMusic };
+export { playMusic, findMusicURL };
 

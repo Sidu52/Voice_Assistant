@@ -49,6 +49,7 @@ const manager = new NlpManager({ languages: ['en'], forceNER: true });
 // manager.addAnswer('en', 'get_todolsit', 'get_todolsit');
 // manager.addAnswer('en', 'getAll_todolsit', 'getAll_todolsit');
 // manager.addAnswer('en', 'Stop', 'Stop');
+// manager.addAnswer('en', 'jarvise_work', 'jarvise_work');
 
 (async () => {
     await manager.load();

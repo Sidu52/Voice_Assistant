@@ -69,12 +69,12 @@ const GoogleParams =
 
 
 
-try {
-    const response = await axios.request(options);
-    console.log(response.data);
-} catch (error) {
-    console.error(error);
-}
+// try {
+//     const response = await axios.request(options);
+//     console.log(response.data);
+// } catch (error) {
+//     console.error(error);
+// }
 
 
 

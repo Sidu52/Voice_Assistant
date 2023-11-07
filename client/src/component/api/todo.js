@@ -22,16 +22,21 @@ const takeInput = () => {
 
 const todo = async (type, animationupdate, loadingupdate) => {
     try {
+        let i = 0;
         await speakText(`Ok, I think you want to ${type.split('_')[0]} todo`);
         var localuser = JSON.parse(localStorage.getItem('user'));
         if (!localuser) {
             await speakText("User not found if you want to create account gave your nickname");
             animationupdate(true);
             const nickname = await takeInput();
-            if (!nickname) {
-                animationupdate(false);
-                await speakText("Sorry task not found");
-                return;
+            i = 0;
+            while (!nickname && i < 5) {
+                await speakText("Sorry nickname not found try again");
+                i++;
+                nickname = await takeInput();
+            }
+            if (i == 5) {
+                return speakText("Sorry input not found thank for using");
             }
             animationupdate(false);
             if (nickname) {
@@ -55,6 +60,15 @@ const todo = async (type, animationupdate, loadingupdate) => {
                 await speakText("What is your to do task");
                 animationupdate(true);
                 const todoTask = await takeInput();
+                i = 0;
+                while (!todoTask && i < 5) {
+                    await speakText("Sorry task not found try again");
+                    i++
+                    todoTask = await takeInput();
+                }
+                if (i == 5) {
+                    return speakText("Sorry input not found thank for using");
+                }
                 loadingupdate(true);
                 var data = await axios.post(`${URL}/todo/todo`, { title: todoTask, completed: false, userid: localuser._id });
                 loadingupdate(false);
@@ -69,11 +83,29 @@ const todo = async (type, animationupdate, loadingupdate) => {
                 await speakText("Which task you want to update");
                 animationupdate(true);
                 const oldTask = await takeInput();
+                i = 0;
+                while (!oldTask && i < 5) {
+                    await speakText("Sorry task not found try again");
+                    i++
+                    oldTask = await takeInput();
+                }
+                if (i == 5) {
+                    return speakText("Sorry input not found thank for using");
+                }
                 loadingupdate(false);
                 animationupdate(false);
                 await speakText("  Tell what should you want to updated");
                 animationupdate(true);
                 const updatedTask = await takeInput();
+                i = 0;
+                while (!updatedTask && i < 5) {
+                    await speakText("Sorry task not found try again");
+                    i++
+                    updatedTask = await takeInput();
+                }
+                if (i == 5) {
+                    return speakText("Sorry input not found thank for using");
+                }
                 loadingupdate(false);
                 var data = await axios.put(`${URL}/todo/todo`, { title: oldTask, completed: false, userid: localuser._id, updatetitle: updatedTask });
                 animationupdate(false);
@@ -87,6 +119,15 @@ const todo = async (type, animationupdate, loadingupdate) => {
                 await speakText("Which task you want to delete");
                 animationupdate(true);
                 const taskname = await takeInput();
+                i = 0;
+                while (!taskname && i < 5) {
+                    await speakText("Sorry task not found try again");
+                    i++
+                    taskname = await takeInput();
+                }
+                if (i == 5) {
+                    return speakText("Sorry input not found thank for using");
+                }
                 loadingupdate(false);
                 var data = await axios.post(`${URL}/todo/deletetodo`, { title: taskname, userid: localuser._id });
                 animationupdate(false);
@@ -100,6 +141,15 @@ const todo = async (type, animationupdate, loadingupdate) => {
                 await speakText("Which task you find in your list");
                 animationupdate(true);
                 const nam = await takeInput();
+                i = 0;
+                while (!nam && i < 5) {
+                    await speakText("Sorry task not found try again");
+                    i++
+                    nam = await takeInput();
+                }
+                if (i == 5) {
+                    return speakText("Sorry input not found thank for using");
+                }
                 loadingupdate(false);
                 var data = await axios.post(`${URL}/todo/utodo`, { title: nam, userid: localuser._id });
                 animationupdate(false);
@@ -131,6 +181,7 @@ const todo = async (type, animationupdate, loadingupdate) => {
         }
     } catch (err) {
         console.error("Error:", err);
+        return await speakText("Somting Wrong with me try again");
     }
 }
 export default todo;

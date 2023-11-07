@@ -19,7 +19,8 @@ async function fetchYouTubeData(apiKey, searchQuery, type) {
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);
-        throw error; // Re-throw the error for the caller to handle
+        // throw error; // Re-throw the error for the caller to handle
+        return await speakText("Somting Wrong with me try again")
     }
 }
 

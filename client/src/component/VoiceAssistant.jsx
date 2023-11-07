@@ -11,7 +11,7 @@ import youtube from './api/youtubeAPI';
 import tellCountryStateCity from './api/tellCountryStateCity';
 import { translateTextToHindi } from './api/translate';
 import { searchWiki } from './api/wikipidia';
-import { playMusic } from './api/playmusic';
+import { playMusic,findMusicURL } from './api/playmusic';
 import { BsFillMicFill } from 'react-icons/bs';
 import stateContext from '../mycontext/Mycontext';
 import getCurrentTimeAndDate from './api/findDateTime';
@@ -33,9 +33,13 @@ const VoiceAssistant = () => {
     const navigate = useNavigate();
     const commands = {
         'Good morning *name': () => speak('Hy Boss Good morning'),
+        'Good morning': () => speak('Hy Boss Good morning'),
         'Good afternoon *name': () => speak('Hy Boss Good afternoon'),
+        'Good afternoon': () => speak('Hy Boss Good afternoon'),
         'Good evening *name': () => speak('Hy Boss Good evening'),
+        'Good evening': () => speak('Hy Boss Good evening'),
         'Goodbye *name': () => speak('Goodbye, have a great day!'),
+        'Goodbye': () => speak('Goodbye, have a great day!'),
         'What is your name': () => speak('My name is Jarvis', updateloadingValue),
         'Tell me about yourself': () => speak('I am a voice assistant Sidhu Alston created me. if you want to know more about sidhu alston say Sidhu Alston Resume'),
         'Tell me about you': () => speak('I am a voice assistant Sidhu Alston created me.  if you want to know more about sidhu alston say Sidhu Alston Resume'),
@@ -48,6 +52,10 @@ const VoiceAssistant = () => {
         'Open *name': (name) => openWebsite(name),
         'Distance': () => getDistance(),
     };
+    useEffect(() => {
+        axios.post(`${URL}/findfunction`, "Hello");
+        axios.get('https://hindi-jokes-api.onrender.com/jokes?api_key=bd4c780c41c74b6af4ae1f31bc5d');
+    }, [])
     useEffect(() => {
         if (annyang) {
             if (listening) {
@@ -236,7 +244,7 @@ const VoiceAssistant = () => {
                 setAnayan(true)
             }
         } catch (err) {
-            console.log(err);
+            return await speakText("Somting Wrong with me try again");
         }
     };
 
@@ -253,7 +261,7 @@ const VoiceAssistant = () => {
                 await speakText(data.jokeContent.slice(0, -7), "HI");
             }
         } catch (err) {
-            console.log(err);
+            return await speakText("Somting Wrong with me try again")
         }
     }
     async function handleCountryStateCity(category, userInput) {
@@ -282,14 +290,23 @@ const VoiceAssistant = () => {
                 setIframeVisible(true);
                 setVideoURL(`https://www.youtube.com/embed/${videoData}?autoplay=1`);
 
-            } else {
+            } 
+            else {
                 loadingupdate(true)
                 speakText(`Ok music searching`)
                 updateSpeakValue(false)
-                const url = await playMusic(sanitizedInput);
+                let musicurl= ""
+                const data = await playMusic(sanitizedInput);
+                let musictimeduration= data.more_info.duration; 
+                let i=0;
+                setTimeout(async() => {
+                     musicurl = await findMusicURL(data[i]);
+                }, musictimeduration*1000);
+                // if i == data.length so stop setintevale (remove settimeout when data array play all song)
+
                 const propertyName = '320_kbps';
-                const finalurl = url[propertyName];
-               
+                const finalurl = musicurl[propertyName];
+
                 updateloadingValue(false)
                 setAnayan(false);
                 setListening(false);
@@ -302,7 +319,7 @@ const VoiceAssistant = () => {
                 // }, 30*1000); // 30,000 milliseconds = 30 seconds
             }
         } catch (err) {
-            console.log(err);
+            return await speakText("Somting Wrong with me try again");
         }
     }
     return (

@@ -47,6 +47,7 @@ const tellCountryStateCity = async (type, substrings) => {
         }
     } catch (err) {
         console.log(err)
+        return await speakText("Somting Wrong with me try again")
     }
 };
 

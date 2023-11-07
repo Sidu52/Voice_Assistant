@@ -2,43 +2,6 @@ import { speakText } from '../text_to_speack/speaktext';
 // import { takeInput } from './translate';
 import axios from 'axios';
 
-// async function gkquize() {
-//     try {
-//         var score = 0;
-//         const { data } = await axios.get("https://the-trivia-api.com/v2/questions");
-//         for (let i = 0; i < data.length; i++) {
-//             await speakText(`Question ${data.question}`);
-
-//             const answers = data.incorrectAnswers.slice(); // Copy incorrect answers array
-//             answers.push(data.correctAnswer); // Add the correct answer to the array
-//             shuffleArray(answers); // Randomly shuffle the answers
-//             const options = ['A', 'B', 'C', 'D'];//option
-//             for (let j = 0; j < answers.length; j++) {
-//                 await speakText(`${options[j]}. ${answers[j]}`);
-//             }
-//             await speakText("Choose one option")
-//             let answer = await takeInput();
-//             var k = 0;
-//             while (!answer && k != 3) {
-//                 await speakText("Plz choose one answer")
-//                 answer = await takeInput()
-//                 k++;
-//             }
-//             if (answer && answer === data.correctAnswer) {
-//                 await speakText("Your answer is correct");
-//                 score++;
-//             } else {
-//                 await speakText("Your answer is incorrect");
-//             }
-//             if (i < data.length - 1) {
-//                 await speakText("Next Quesion");
-//             }
-//         }
-//         await speakText(`Your Score is ${score}`);
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }
 const takeInput = () => {
     return new Promise((resolve, reject) => {
         const recognition = new webkitSpeechRecognition();
@@ -105,7 +68,7 @@ async function gkquize(animationupdate, loadingupdate) {
         }
         await speakText(`Your Score is ${score}`);
     } catch (error) {
-        console.error(error);
+        return await speakText("Somting Wrong with me try again")
     }
 }
 

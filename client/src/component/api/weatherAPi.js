@@ -22,7 +22,7 @@ const cityWeather = async (cityName, type) => {
         }
     } catch (err) {
         console.error(err);
-        // speakText('Sorry, there was an error fetching country data');
+        return await speakText("Somting Wrong with me try again");
     }
 };
 
