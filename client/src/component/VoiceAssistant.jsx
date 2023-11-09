@@ -108,7 +108,6 @@ const VoiceAssistant = () => {
         const { data } = await axios.post(`${URL}/alarm/getalarm`, { userid: localuser._id });
         const alarmData = data.data;
         if (alarmData.length === 0) {
-            console.log("No alarms found");
             return;
         }
         const timeDifferences = [];
@@ -137,14 +136,10 @@ const VoiceAssistant = () => {
             timeDifferences.push(timeDifference);
 
             setTimeout(() => {
-                // Your alarm ring logic goes here
-                console.log("Alarm ring");
                 // Assuming setAlarmRing and setAlarmDeatil are functions
                 setAlarmRing(true);
                 setAlarmDeatil(alarmData[i]);
             }, timeDifference);
-
-            console.log(`Time difference for alarm ${i + 1} in milliseconds: ${timeDifference}`);
         }
 
         // If you need to use the time differences array elsewhere, you can return it or perform further actions.
@@ -260,14 +255,14 @@ const VoiceAssistant = () => {
         });
     };
 
-    const openWebsite = (name) => {
+    const openWebsite =async (name) => {
         // Make sure the name is in a valid format (e.g., without spaces and special characters)
         const sanitizedName = name.replace(/\s/g, '');
         if (sanitizedName) {
             const url = `https://www.${sanitizedName}.com`;
             window.location.href = url
         } else {
-            console.log('Invalid website name provided.');
+            await speakText('Invalid website name provided.');
         }
     };
     //Find Category
@@ -351,12 +346,12 @@ const VoiceAssistant = () => {
                 case "delete Alarm":
                 case "getAll Alarm":
                 case "get Alarm":
-                    console.log("Enter")
                     const res = await setAlaram(userInput, data.data, animationupdate, loadingupdate);
                     setLoad(res);
                     break;
                 case "Not_Category":
                     await speakText("Sorry, I don't know much more about that, but with time I am updating myself");
+                    handlemicshow(true)
                     break;
                 default:
                     break;
@@ -366,11 +361,11 @@ const VoiceAssistant = () => {
                 annyang.abort();
                 setListening(true);
                 setAnayan(true)
-                setAnayan(true)
             }
         } catch (err) {
             console.log(err)
-            return await speakText("Somting Wrong with me try again");
+            await speakText("Somting Wrong with me try again");
+            handlemicshow(true)
         }
     };
 

@@ -22,7 +22,6 @@ const takeInput = () => {
 
 async function setAlaram(userInput, opration, animationupdate, loadingupdate) {
     try {
-        console.log("FGD")
         await speakText(`I think you want to ${opration}`);
         let i = 0;
         let updateData = {};
@@ -36,7 +35,7 @@ async function setAlaram(userInput, opration, animationupdate, loadingupdate) {
             time = Atime.match(timeRegex);
             i = 0;
             while (!time && i < 5) {
-                await speakText("Sorry nickname not found try again");
+                await speakText("Sorry time not found try again");
                 i++;
                 Atime = await takeInput();
                 time = Atime.match(timeRegex);
