@@ -772,7 +772,7 @@
             "domain": "default"
           },
           "a,alarm,had,i,like,make,remind,set,to": {
-            "intent": "set_Alarm",
+            "intent": "set Alarm",
             "domain": "default"
           },
           "alarm,can,remind,setup,you": {
@@ -780,79 +780,79 @@
             "domain": "default"
           },
           "a,alarm,for,me,pleas,remind,set,up": {
-            "intent": "set_Alarm",
+            "intent": "set Alarm",
             "domain": "default"
           },
           "a,alarm,make,remind,today": {
-            "intent": "set_Alarm",
+            "intent": "set Alarm",
             "domain": "default"
           },
           "alarm,edit,i,my,need,remind,to": {
-            "intent": "update_Alarm",
+            "intent": "update Alarm",
             "domain": "default"
           },
           "alarm,can,help,me,modifi,my,remind,you": {
-            "intent": "update_Alarm",
+            "intent": "update Alarm",
             "domain": "default"
           },
           "alarm,can,chang,how,i,make,my,remind,to": {
-            "intent": "update_Alarm",
+            "intent": "update Alarm",
             "domain": "default"
           },
           "alarm,i,my,remind,to,updat,want": {
-            "intent": "update_Alarm",
+            "intent": "update Alarm",
             "domain": "default"
           },
           "alarm,i,my,remind,remov,to,want": {
-            "intent": "delete_Alarm",
+            "intent": "delete Alarm",
             "domain": "default"
           },
           "alarm,all,can,delet,how,i,my,remind": {
-            "intent": "delete_Alarm",
+            "intent": "delete Alarm",
             "domain": "default"
           },
           "alarm,get,help,me,my,of,pleas,remind,rid": {
-            "intent": "delete_Alarm",
+            "intent": "delete Alarm",
             "domain": "default"
           },
           "alarm,discard,had,i,like,my,remind,to": {
-            "intent": "delete_Alarm",
+            "intent": "delete Alarm",
             "domain": "default"
           },
           "access,alarm,get,i,my,need,remind,to": {
-            "intent": "get_Alarm",
+            "intent": "get Alarm",
             "domain": "default"
           },
           "alarm,can,how,i,my,remind,view": {
-            "intent": "get_Alarm",
+            "intent": "get Alarm",
             "domain": "default"
           },
           "alarm,me,my,pleas,remind,show": {
-            "intent": "get_Alarm",
+            "intent": "get Alarm",
             "domain": "default"
           },
           "alarm,had,i,like,my,remind,see,to": {
-            "intent": "get_Alarm",
+            "intent": "get Alarm",
             "domain": "default"
           },
           "alarm,all,i,my,of,remind,see,to,want": {
-            "intent": "getAll_Alarm",
+            "intent": "getAll Alarm",
             "domain": "default"
           },
           "alarm,all,can,how,i,my,remind,view": {
-            "intent": "getAll_Alarm",
+            "intent": "getAll Alarm",
             "domain": "default"
           },
           "a,alarm,all,list,me,my,of,pleas,remind,show": {
-            "intent": "getAll_Alarm",
+            "intent": "getAll Alarm",
             "domain": "default"
           },
           "alarm,all,had,i,like,my,remind,retriev,to": {
-            "intent": "getAll_Alarm",
+            "intent": "getAll Alarm",
             "domain": "default"
           },
           "alarm,all,me,my,remind,show": {
-            "intent": "getAll_Alarm",
+            "intent": "getAll Alarm",
             "domain": "default"
           },
           "i,love,you": {
@@ -924,11 +924,12 @@
           "delete_todolsit": "default",
           "get_todolsit": "default",
           "getAll_todolsit": "default",
+          "set Alarm": "default",
           "set_Alarm": "default",
-          "update_Alarm": "default",
-          "delete_Alarm": "default",
-          "get_Alarm": "default",
-          "getAll_Alarm": "default",
+          "update Alarm": "default",
+          "delete Alarm": "default",
+          "get Alarm": "default",
+          "getAll Alarm": "default",
           "love_jarvis": "default",
           "hate_jarvis": "default"
         },
@@ -1881,7 +1882,7 @@
           {
             "domain": "default",
             "utterance": "i had like to make a set alarm reminder",
-            "intent": "set_Alarm"
+            "intent": "set Alarm"
           },
           {
             "domain": "default",
@@ -1891,97 +1892,97 @@
           {
             "domain": "default",
             "utterance": "please set up a alarm reminder for me.",
-            "intent": "set_Alarm"
+            "intent": "set Alarm"
           },
           {
             "domain": "default",
             "utterance": "make a reminder alarm reminder today",
-            "intent": "set_Alarm"
+            "intent": "set Alarm"
           },
           {
             "domain": "default",
             "utterance": "i need to edit my alarm reminder",
-            "intent": "update_Alarm"
+            "intent": "update Alarm"
           },
           {
             "domain": "default",
             "utterance": "can you help me modify my alarm reminder",
-            "intent": "update_Alarm"
+            "intent": "update Alarm"
           },
           {
             "domain": "default",
             "utterance": "how can I make changes to my alarm reminder",
-            "intent": "update_Alarm"
+            "intent": "update Alarm"
           },
           {
             "domain": "default",
             "utterance": "i want to update my alarm reminder",
-            "intent": "update_Alarm"
+            "intent": "update Alarm"
           },
           {
             "domain": "default",
             "utterance": "i want to remove my alarm reminder",
-            "intent": "delete_Alarm"
+            "intent": "delete Alarm"
           },
           {
             "domain": "default",
             "utterance": "how can I delete my all alarm reminder",
-            "intent": "delete_Alarm"
+            "intent": "delete Alarm"
           },
           {
             "domain": "default",
             "utterance": "please help me get rid of my alarm reminder",
-            "intent": "delete_Alarm"
+            "intent": "delete Alarm"
           },
           {
             "domain": "default",
             "utterance": "i'd had like to discard my alarm reminder",
-            "intent": "delete_Alarm"
+            "intent": "delete Alarm"
           },
           {
             "domain": "default",
             "utterance": "i need to get access my alarm reminder",
-            "intent": "get_Alarm"
+            "intent": "get Alarm"
           },
           {
             "domain": "default",
             "utterance": "how can I view my alarm reminder",
-            "intent": "get_Alarm"
+            "intent": "get Alarm"
           },
           {
             "domain": "default",
             "utterance": "please show me my alarm reminder",
-            "intent": "get_Alarm"
+            "intent": "get Alarm"
           },
           {
             "domain": "default",
             "utterance": "i'd had like to see my alarm reminder",
-            "intent": "get_Alarm"
+            "intent": "get Alarm"
           },
           {
             "domain": "default",
             "utterance": "i want to see all of my alarm reminder",
-            "intent": "getAll_Alarm"
+            "intent": "getAll Alarm"
           },
           {
             "domain": "default",
             "utterance": "how can I view all my alarm reminder",
-            "intent": "getAll_Alarm"
+            "intent": "getAll Alarm"
           },
           {
             "domain": "default",
             "utterance": "please show me a list of all my alarm reminder",
-            "intent": "getAll_Alarm"
+            "intent": "getAll Alarm"
           },
           {
             "domain": "default",
             "utterance": "i'd had like to retrieve all my alarm reminder",
-            "intent": "getAll_Alarm"
+            "intent": "getAll Alarm"
           },
           {
             "domain": "default",
             "utterance": "show me all my alarm reminder",
-            "intent": "getAll_Alarm"
+            "intent": "getAll Alarm"
           },
           {
             "domain": "default",
@@ -2305,11 +2306,12 @@
               "delete_todolsit": 1,
               "get_todolsit": 1,
               "getAll_todolsit": 1,
+              "set Alarm": 1,
               "set_Alarm": 1,
-              "update_Alarm": 1,
-              "delete_Alarm": 1,
-              "get_Alarm": 1,
-              "getAll_Alarm": 1,
+              "update Alarm": 1,
+              "delete Alarm": 1,
+              "get Alarm": 1,
+              "getAll Alarm": 1,
               "love_jarvis": 1,
               "hate_jarvis": 1
             },
@@ -2939,7 +2941,7 @@
                 "like": 1,
                 "retriev": 1
               },
-              "set_Alarm": {
+              "set Alarm": {
                 "i": 1,
                 "had": 1,
                 "like": 1,
@@ -2949,16 +2951,20 @@
                 "set": 1,
                 "alarm": 1,
                 "remind": 1,
-                "can": 1,
-                "you": 1,
-                "setup": 1,
                 "pleas": 1,
                 "up": 1,
                 "for": 1,
                 "me": 1,
                 "today": 1
               },
-              "update_Alarm": {
+              "set_Alarm": {
+                "can": 1,
+                "you": 1,
+                "setup": 1,
+                "remind": 1,
+                "alarm": 1
+              },
+              "update Alarm": {
                 "i": 1,
                 "need": 1,
                 "to": 1,
@@ -2977,7 +2983,7 @@
                 "want": 1,
                 "updat": 1
               },
-              "delete_Alarm": {
+              "delete Alarm": {
                 "i": 1,
                 "want": 1,
                 "to": 1,
@@ -2999,7 +3005,7 @@
                 "like": 1,
                 "discard": 1
               },
-              "get_Alarm": {
+              "get Alarm": {
                 "i": 1,
                 "need": 1,
                 "to": 1,
@@ -3018,7 +3024,7 @@
                 "like": 1,
                 "see": 1
               },
-              "getAll_Alarm": {
+              "getAll Alarm": {
                 "i": 1,
                 "want": 1,
                 "to": 1,
@@ -3081,10 +3087,10 @@
                 "delete_todolsit",
                 "get_todolsit",
                 "getAll_todolsit",
-                "update_Alarm",
-                "delete_Alarm",
-                "get_Alarm",
-                "getAll_Alarm"
+                "update Alarm",
+                "delete Alarm",
+                "get Alarm",
+                "getAll Alarm"
               ],
               "are": [
                 "greeting.aboutyou",
@@ -3110,7 +3116,7 @@
                 "update_todolsit",
                 "delete_todolsit",
                 "set_Alarm",
-                "update_Alarm",
+                "update Alarm",
                 "love_jarvis",
                 "hate_jarvis"
               ],
@@ -3167,7 +3173,7 @@
               "up": [
                 "greeting.aboutyou",
                 "create_todolsit",
-                "set_Alarm"
+                "set Alarm"
               ],
               "jarvi": [
                 "greeting.aboutyou",
@@ -3218,11 +3224,11 @@
                 "delete_todolsit",
                 "get_todolsit",
                 "getAll_todolsit",
-                "set_Alarm",
-                "update_Alarm",
-                "delete_Alarm",
-                "get_Alarm",
-                "getAll_Alarm"
+                "set Alarm",
+                "update Alarm",
+                "delete Alarm",
+                "get Alarm",
+                "getAll Alarm"
               ],
               "about": [
                 "SidhuAlston",
@@ -3264,8 +3270,8 @@
                 "time",
                 "create_todolsit",
                 "getAll_todolsit",
-                "set_Alarm",
-                "getAll_Alarm"
+                "set Alarm",
+                "getAll Alarm"
               ],
               "to": [
                 "SidhuAlston",
@@ -3281,11 +3287,11 @@
                 "delete_todolsit",
                 "get_todolsit",
                 "getAll_todolsit",
-                "set_Alarm",
-                "update_Alarm",
-                "delete_Alarm",
-                "get_Alarm",
-                "getAll_Alarm"
+                "set Alarm",
+                "update Alarm",
+                "delete Alarm",
+                "get Alarm",
+                "getAll Alarm"
               ],
               "know": [
                 "SidhuAlston",
@@ -3357,8 +3363,8 @@
                 "create_todolsit",
                 "update_todolsit",
                 "delete_todolsit",
-                "update_Alarm",
-                "delete_Alarm"
+                "update Alarm",
+                "delete Alarm"
               ],
               "was": [
                 "jarvise_work"
@@ -3389,8 +3395,8 @@
                 "translate",
                 "delete_todolsit",
                 "getAll_todolsit",
-                "delete_Alarm",
-                "getAll_Alarm"
+                "delete Alarm",
+                "getAll Alarm"
               ],
               "can": [
                 "jarvise_work",
@@ -3406,10 +3412,10 @@
                 "get_todolsit",
                 "getAll_todolsit",
                 "set_Alarm",
-                "update_Alarm",
-                "delete_Alarm",
-                "get_Alarm",
-                "getAll_Alarm",
+                "update Alarm",
+                "delete Alarm",
+                "get Alarm",
+                "getAll Alarm",
                 "love_jarvis"
               ],
               "in": [
@@ -3432,10 +3438,10 @@
                 "delete_todolsit",
                 "get_todolsit",
                 "getAll_todolsit",
-                "update_Alarm",
-                "delete_Alarm",
-                "get_Alarm",
-                "getAll_Alarm"
+                "update Alarm",
+                "delete Alarm",
+                "get Alarm",
+                "getAll Alarm"
               ],
               "task": [
                 "jarvise_work"
@@ -3466,11 +3472,11 @@
                 "delete_todolsit",
                 "get_todolsit",
                 "getAll_todolsit",
-                "set_Alarm",
-                "update_Alarm",
-                "delete_Alarm",
-                "get_Alarm",
-                "getAll_Alarm",
+                "set Alarm",
+                "update Alarm",
+                "delete Alarm",
+                "get Alarm",
+                "getAll Alarm",
                 "love_jarvis",
                 "hate_jarvis"
               ],
@@ -3485,7 +3491,7 @@
                 "weather",
                 "create_todolsit",
                 "get_todolsit",
-                "set_Alarm"
+                "set Alarm"
               ],
               "function": [
                 "jarvise_work"
@@ -3554,7 +3560,7 @@
                 "disturb",
                 "weather",
                 "date",
-                "set_Alarm"
+                "set Alarm"
               ],
               "mind": [
                 "disturb"
@@ -3616,10 +3622,10 @@
                 "delete_todolsit",
                 "get_todolsit",
                 "getAll_todolsit",
-                "set_Alarm",
-                "delete_Alarm",
-                "get_Alarm",
-                "getAll_Alarm"
+                "set Alarm",
+                "delete Alarm",
+                "get Alarm",
+                "getAll Alarm"
               ],
               "mood": [
                 "disturb"
@@ -3636,8 +3642,8 @@
                 "date",
                 "update_todolsit",
                 "get_todolsit",
-                "update_Alarm",
-                "get_Alarm"
+                "update Alarm",
+                "get Alarm"
               ],
               "some": [
                 "disturb"
@@ -3684,9 +3690,9 @@
                 "update_todolsit",
                 "delete_todolsit",
                 "getAll_todolsit",
-                "update_Alarm",
-                "delete_Alarm",
-                "getAll_Alarm"
+                "update Alarm",
+                "delete Alarm",
+                "getAll Alarm"
               ],
               "play": [
                 "gkquize",
@@ -3765,8 +3771,8 @@
                 "greetings.bye",
                 "get_todolsit",
                 "getAll_todolsit",
-                "get_Alarm",
-                "getAll_Alarm"
+                "get Alarm",
+                "getAll Alarm"
               ],
               "later": [
                 "greetings.bye"
@@ -3823,8 +3829,8 @@
                 "about_us",
                 "create_todolsit",
                 "update_todolsit",
-                "set_Alarm",
-                "update_Alarm"
+                "set Alarm",
+                "update Alarm"
               ],
               "citi": [
                 "weather",
@@ -3846,10 +3852,10 @@
                 "delete_todolsit",
                 "get_todolsit",
                 "getAll_todolsit",
-                "set_Alarm",
-                "delete_Alarm",
-                "get_Alarm",
-                "getAll_Alarm",
+                "set Alarm",
+                "delete Alarm",
+                "get Alarm",
+                "getAll Alarm",
                 "love_jarvis"
               ],
               "forecast": [
@@ -3863,7 +3869,7 @@
               "updat": [
                 "weather",
                 "update_todolsit",
-                "update_Alarm"
+                "update Alarm"
               ],
               "five": [
                 "weather_forecast"
@@ -3897,10 +3903,10 @@
                 "delete_todolsit",
                 "get_todolsit",
                 "getAll_todolsit",
-                "set_Alarm",
-                "delete_Alarm",
-                "get_Alarm",
-                "getAll_Alarm"
+                "set Alarm",
+                "delete Alarm",
+                "get Alarm",
+                "getAll Alarm"
               ],
               "learn": [
                 "country",
@@ -4078,7 +4084,7 @@
                 "delete_todolsit",
                 "get_todolsit",
                 "getAll_todolsit",
-                "getAll_Alarm"
+                "getAll Alarm"
               ],
               "start": [
                 "create_todolsit"
@@ -4088,84 +4094,86 @@
               ],
               "set": [
                 "create_todolsit",
-                "set_Alarm"
+                "set Alarm"
               ],
               "edit": [
                 "update_todolsit",
-                "update_Alarm"
+                "update Alarm"
               ],
               "modifi": [
                 "update_todolsit",
-                "update_Alarm"
+                "update Alarm"
               ],
               "chang": [
                 "update_todolsit",
-                "update_Alarm"
+                "update Alarm"
               ],
               "show": [
                 "update_todolsit",
                 "get_todolsit",
                 "getAll_todolsit",
-                "get_Alarm",
-                "getAll_Alarm"
+                "get Alarm",
+                "getAll Alarm"
               ],
               "remov": [
                 "delete_todolsit",
-                "delete_Alarm"
+                "delete Alarm"
               ],
               "delet": [
                 "delete_todolsit",
-                "delete_Alarm"
+                "delete Alarm"
               ],
               "get": [
                 "delete_todolsit",
-                "delete_Alarm",
-                "get_Alarm"
+                "delete Alarm",
+                "get Alarm"
               ],
               "rid": [
                 "delete_todolsit",
-                "delete_Alarm"
+                "delete Alarm"
               ],
               "discard": [
                 "delete_todolsit",
-                "delete_Alarm"
+                "delete Alarm"
               ],
               "eras": [
                 "delete_todolsit"
               ],
               "access": [
                 "get_todolsit",
-                "get_Alarm"
+                "get Alarm"
               ],
               "view": [
                 "get_todolsit",
                 "getAll_todolsit",
-                "get_Alarm",
-                "getAll_Alarm"
+                "get Alarm",
+                "getAll Alarm"
               ],
               "retriev": [
                 "get_todolsit",
                 "getAll_todolsit",
-                "getAll_Alarm"
+                "getAll Alarm"
               ],
               "all": [
                 "getAll_todolsit",
-                "delete_Alarm",
-                "getAll_Alarm"
+                "delete Alarm",
+                "getAll Alarm"
               ],
               "alarm": [
+                "set Alarm",
                 "set_Alarm",
-                "update_Alarm",
-                "delete_Alarm",
-                "get_Alarm",
-                "getAll_Alarm"
+                "update Alarm",
+                "delete Alarm",
+                "get Alarm",
+                "getAll Alarm"
               ],
               "remind": [
+                "set Alarm",
                 "set_Alarm",
-                "update_Alarm",
-                "delete_Alarm",
-                "get_Alarm",
-                "getAll_Alarm"
+                "update Alarm",
+                "delete Alarm",
+                "get Alarm",
+                "getAll Alarm"
               ],
               "setup": [
                 "set_Alarm"
@@ -4457,11 +4465,12 @@
                 "delete_todolsit",
                 "get_todolsit",
                 "getAll_todolsit",
+                "set Alarm",
                 "set_Alarm",
-                "update_Alarm",
-                "delete_Alarm",
-                "get_Alarm",
-                "getAll_Alarm",
+                "update Alarm",
+                "delete Alarm",
+                "get Alarm",
+                "getAll Alarm",
                 "love_jarvis",
                 "hate_jarvis"
               ],
@@ -11504,167 +11513,125 @@
                   -2.9801475628447176
                 ],
                 [
-                  -2.1238372325897217,
-                  -0.26386311650276184,
-                  0.8371123671531677,
-                  -0.21330901980400085,
-                  -0.6557783484458923,
-                  -0.5769460201263428,
-                  -1.0559182167053223,
-                  1.1282094717025757,
-                  -0.12588182091712952,
-                  -0.15720050036907196,
-                  -0.34802499413490295,
-                  -1.602370262145996,
-                  -0.06968308240175247,
-                  -0.2940976619720459,
-                  -0.2940976619720459,
-                  -0.5660531520843506,
-                  2.289684772491455,
-                  -1.9727650880813599,
-                  -0.04702664911746979,
+                  -0.8488019108772278,
                   0,
+                  -1.786702036857605,
+                  -0.14289921522140503,
+                  -0.7152313590049744,
+                  -0.5519327521324158,
+                  -1.146087408065796,
+                  1.5718963146209717,
+                  -0.06465496122837067,
+                  -0.014208147302269936,
+                  -0.7576147317886353,
+                  -0.7229055166244507,
+                  -0.019999710842967033,
+                  -0.2768855690956116,
+                  -0.2768855690956116,
+                  -0.5439761877059937,
+                  2.889514446258545,
+                  -1.9825024604797363,
                   0,
-                  -0.006688488181680441,
-                  -0.006408132147043943,
-                  -0.006408132147043943,
-                  -0.006408132147043943,
-                  -0.006139528006315231,
-                  -0.006139528006315231,
-                  -0.20090937614440918,
-                  -0.15998589992523193,
-                  -0.020577752962708473,
-                  -0.020577752962708473,
-                  -1.146018147468567,
-                  -1.545357584953308,
                   0,
-                  -0.08107727020978928,
                   0,
+                  -0.0015430127969011664,
+                  -0.0014783357037231326,
+                  -0.0014783357037231326,
+                  -0.0014783357037231326,
+                  -0.0014163694577291608,
+                  -0.0014163694577291608,
                   0,
                   0,
-                  -0.6453384160995483,
-                  1.3424651622772217,
-                  -0.012345914728939533,
-                  -5.8342390060424805,
                   0,
-                  -0.013091614469885826,
-                  -0.013091614469885826,
-                  -1.6123270988464355,
-                  -0.10182647407054901,
-                  0.7202407717704773,
                   0,
-                  -0.03549227491021156,
-                  -0.03549227491021156,
-                  -0.03549227491021156,
-                  -0.06418086588382721,
+                  -1.8632718324661255,
+                  -0.655243992805481,
                   0,
+                  -0.18316535651683807,
                   0,
                   0,
                   0,
+                  -0.850164532661438,
+                  -2.132225275039673,
+                  -0.05526978150010109,
+                  -3.920530080795288,
                   0,
                   0,
                   0,
-                  -0.04288685321807861,
+                  -0.8103203177452087,
+                  -0.1426294445991516,
+                  1.23916757106781,
                   0,
+                  -0.00013923796359449625,
+                  -0.00013923796359449625,
+                  -0.00013923796359449625,
                   0,
                   0,
-                  1.841855764389038,
                   0,
                   0,
                   0,
-                  -0.04288685321807861,
-                  -0.04288685321807861,
-                  -0.04288685321807861,
-                  -0.04288685321807861,
-                  -0.3050852119922638,
                   0,
-                  -0.00013545255933422595,
                   0,
                   0,
+                  -0.09399046003818512,
                   0,
                   0,
-                  0.1397167295217514,
                   0,
+                  2.7043964862823486,
                   0,
                   0,
-                  -0.5177432298660278,
                   0,
+                  -0.09399046003818512,
+                  -0.09399046003818512,
+                  -0.09399046003818512,
+                  -0.09399046003818512,
+                  -0.37786751985549927,
                   0,
                   0,
                   0,
                   0,
                   0,
                   0,
+                  0.5149677395820618,
                   0,
                   0,
                   0,
-                  -0.0628834217786789,
-                  -0.402976930141449,
-                  -0.0014391988515853882,
-                  -0.0015021638246253133,
-                  -0.0015021638246253133,
-                  -0.0014391988515853882,
-                  -0.0012657016050070524,
-                  -0.0013788732467219234,
-                  -0.0013788732467219234,
-                  -0.0013210760662332177,
-                  -0.0013210760662332177,
+                  -0.33282071352005005,
                   0,
                   0,
                   0,
                   0,
                   0,
-                  -0.004734487738460302,
-                  -0.004070779774338007,
-                  -0.0011109891347587109,
-                  -0.09942634403705597,
-                  -0.09753531962633133,
                   0,
                   0,
-                  -0.06870559602975845,
-                  -0.5401796102523804,
-                  -0.06870559602975845,
                   0,
                   0,
                   0,
-                  -0.061622682958841324,
+                  -0.06902314722537994,
+                  -0.34944814443588257,
                   0,
                   0,
-                  -0.007378850597888231,
-                  -0.4413904547691345,
-                  -0.4413904547691345,
                   0,
                   0,
-                  -0.10182647407054901,
-                  -0.10182647407054901,
                   0,
-                  2.0809316635131836,
-                  -0.05387774109840393,
-                  -0.2103499472141266,
                   0,
-                  0.8433593511581421,
-                  -0.2027340680360794,
                   0,
-                  -0.25921082496643066,
-                  -0.10092286020517349,
-                  -0.031235618516802788,
-                  -0.093412846326828,
                   0,
                   0,
                   0,
-                  1.0441055297851562,
                   0,
                   0,
                   0,
                   0,
                   0,
-                  -0.0029123991262167692,
-                  -0.08942102640867233,
+                  -0.014208147302269936,
                   0,
+                  -0.09595881402492523,
+                  -0.10047216713428497,
                   0,
                   0,
                   0,
-                  -0.00013545255933422595,
+                  -0.3249168395996094,
                   0,
                   0,
                   0,
@@ -11672,22 +11639,36 @@
                   0,
                   0,
                   0,
+                  -0.08882945775985718,
+                  -0.43060818314552307,
+                  -0.43060818314552307,
                   0,
                   0,
-                  -0.7752553820610046,
+                  -0.1426294445991516,
+                  -0.1426294445991516,
                   0,
-                  -0.7224722504615784,
+                  3.73565411567688,
+                  -0.05526978150010109,
+                  -0.28421035408973694,
+                  -0.0754309743642807,
+                  0.7804704308509827,
+                  -0.24644584953784943,
                   0,
+                  -0.18926195800304413,
+                  -0.15584741532802582,
+                  -0.06153849884867668,
+                  -0.12224096059799194,
+                  -0.010920760221779346,
                   0,
                   0,
+                  0.8798050880432129,
                   0,
-                  -0.0007077449117787182,
                   0,
                   0,
                   0,
-                  -0.07868306338787079,
                   0,
-                  -0.07868306338787079,
+                  -0.015263872221112251,
+                  -0.15301641821861267,
                   0,
                   0,
                   0,
@@ -11701,34 +11682,289 @@
                   0,
                   0,
                   0,
-                  -1.033922791481018,
-                  -1.4458280801773071,
                   0,
+                  -0.847048819065094,
                   0,
-                  3.537001132965088,
-                  -0.5177432298660278,
-                  -1.325281023979187,
-                  -0.9389471411705017,
-                  -0.8458110690116882,
-                  -0.08729704469442368,
-                  -0.1237858235836029,
-                  -0.15278588235378265,
-                  -0.15278588235378265,
-                  -0.5858979821205139,
+                  -0.7221139669418335,
                   0,
                   0,
-                  -0.04824945330619812,
-                  -0.013198614120483398,
-                  -0.5818929672241211,
-                  4.432554244995117,
-                  4.432554244995117,
-                  4.031216621398926,
                   0,
                   0,
-                  -0.00013545255933422595,
+                  -0.014208147302269936,
                   0,
                   0,
-                  -0.7916882211774426
+                  0,
+                  -0.005091119557619095,
+                  0,
+                  -0.005091119557619095,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.010920760221779346,
+                  -0.010920760221779346,
+                  -1.862993597984314,
+                  -2.3111324310302734,
+                  0,
+                  0,
+                  3.83716082572937,
+                  -0.33282071352005005,
+                  -0.3432767391204834,
+                  -0.46934765577316284,
+                  -0.8275287747383118,
+                  -0.08777536451816559,
+                  -0.011042045429348946,
+                  -0.18915797770023346,
+                  -0.18915797770023346,
+                  -0.35231345891952515,
+                  0,
+                  0,
+                  0,
+                  -0.03856675699353218,
+                  -0.48441267013549805,
+                  3.13814115524292,
+                  3.13814115524292,
+                  -1.0369526147842407,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -1.3203113343234034
+                ],
+                [
+                  -1.1683179140090942,
+                  -0.5034226775169373,
+                  1.4653925895690918,
+                  -0.14135360717773438,
+                  -0.044305723160505295,
+                  -0.33291658759117126,
+                  -0.03513539582490921,
+                  -0.21074585616588593,
+                  -0.16445614397525787,
+                  -0.3537794351577759,
+                  -0.5215168595314026,
+                  -2.2653231620788574,
+                  -0.2718427777290344,
+                  -0.24030660092830658,
+                  -0.24030660092830658,
+                  0,
+                  -1.3780511617660522,
+                  -0.4021068811416626,
+                  -0.10157690942287445,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.015376419760286808,
+                  0,
+                  0,
+                  -0.4737280607223511,
+                  -0.3830997943878174,
+                  -0.0709729716181755,
+                  -0.0709729716181755,
+                  -0.21757501363754272,
+                  -1.4183903932571411,
+                  -0.03513539582490921,
+                  -0.5390658378601074,
+                  -0.03513539582490921,
+                  -0.03513539582490921,
+                  -0.03513539582490921,
+                  -0.03513539582490921,
+                  2.6127593517303467,
+                  0,
+                  -2.840526819229126,
+                  0,
+                  -0.1887182742357254,
+                  -0.1887182742357254,
+                  -1.9529114961624146,
+                  0,
+                  -0.3434090316295624,
+                  -0.015376419760286808,
+                  -0.07574598491191864,
+                  -0.04773911088705063,
+                  -0.04773911088705063,
+                  -0.2855451703071594,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.04521077126264572,
+                  0,
+                  -0.006987996399402618,
+                  0,
+                  0,
+                  0,
+                  -1.1438668966293335,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.5012152194976807,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.21074585616588593,
+                  0,
+                  0,
+                  0,
+                  -0.1529102474451065,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.031489111483097076,
+                  -0.00975839514285326,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.19983084499835968,
+                  -0.5307608842849731,
+                  -0.19983084499835968,
+                  0,
+                  0,
+                  0,
+                  -0.3249491751194,
+                  0,
+                  0,
+                  -0.1491420418024063,
+                  -0.012401517480611801,
+                  0,
+                  0,
+                  -0.034807026386260986,
+                  0,
+                  0,
+                  0,
+                  -1.3425008058547974,
+                  -0.0425148531794548,
+                  -0.1863100826740265,
+                  0,
+                  -0.01654583029448986,
+                  -0.1863100826740265,
+                  0,
+                  -0.00975839514285326,
+                  0,
+                  0,
+                  -0.06583736836910248,
+                  -0.11917172372341156,
+                  -0.11917172372341156,
+                  -0.11917172372341156,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.04521077126264572,
+                  -0.04521077126264572,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.5012152194976807,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.2855451703071594,
+                  0,
+                  -0.2855451703071594,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.14340592920780182,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.21074585616588593,
+                  -0.1529102474451065,
+                  -1.4183903932571411,
+                  -0.16550663113594055,
+                  0,
+                  0,
+                  -0.34269100427627563,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  -0.5158299207687378,
+                  0,
+                  -0.3643897771835327,
+                  2.236654281616211,
+                  2.236654281616211,
+                  6.335238933563232,
+                  -0.1021539494395256,
+                  -0.025059403851628304,
+                  -0.5147033929824829,
+                  -0.006987996399402618,
+                  -0.002246149815618992,
+                  -0.6078586339987339
                 ],
                 [
                   -1.7115530967712402,
@@ -14171,29 +14407,29 @@
             "answer": "jarvise_work"
           }
         ],
-        "set_Alarm": [
+        "set Alarm": [
           {
-            "answer": "set_Alarm"
+            "answer": "set Alarm"
           }
         ],
-        "update_Alarm": [
+        "update Alarm": [
           {
-            "answer": "update_Alarm"
+            "answer": "update Alarm"
           }
         ],
-        "delete_Alarm": [
+        "delete Alarm": [
           {
-            "answer": "delete_Alarm"
+            "answer": "delete Alarm"
           }
         ],
-        "get_Alarm": [
+        "get Alarm": [
           {
-            "answer": "get_Alarm"
+            "answer": "get Alarm"
           }
         ],
-        "getAll_Alarm": [
+        "getAll Alarm": [
           {
-            "answer": "getAll_Alarm"
+            "answer": "getAll Alarm"
           }
         ]
       }

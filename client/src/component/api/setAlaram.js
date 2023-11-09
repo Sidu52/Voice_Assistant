@@ -22,13 +22,14 @@ const takeInput = () => {
 
 async function setAlaram(userInput, opration, animationupdate, loadingupdate) {
     try {
+        console.log("FGD")
         await speakText(`I think you want to ${opration}`);
         let i = 0;
         let updateData = {};
         const timeRegex = /(\d{1,2}:\d{2}\s*[ap]\.m\.)/gi;
         // Search for time patterns in the input strings
         let time = userInput.match(timeRegex);
-        if (!time && opration != "getAll_Alarm") {
+        if (!time && opration != "getAll Alarm") {
             await speakText(`gave your  ${opration} time`);
             animationupdate(true);
             let Atime = await takeInput();
@@ -48,7 +49,7 @@ async function setAlaram(userInput, opration, animationupdate, loadingupdate) {
         i = 0;
         var localuser = JSON.parse(localStorage.getItem('user'));
         if (!localuser) {
-            await speakText("User not found plz gave your nickname");
+            await speakText("User not found gave your nickname");
             animationupdate(true);
             let nickname = await takeInput();
             i = 0;
@@ -77,14 +78,14 @@ async function setAlaram(userInput, opration, animationupdate, loadingupdate) {
             }
             localuser = JSON.parse(localStorage.getItem('user'));
         }
-        if (opration == "set_Alarm") {
+        if (opration == "set Alarm") {
             var { data } = await axios.post(`${URL}/alarm/alarm`, { alarmTime: time[0], userid: localuser._id });
             if (data.data) {
                 return speakText(`${time[0]} alarm ${data.data.title} already set`);
             }
         }
         switch (opration) {
-            case "set_Alarm":
+            case "set Alarm":
                 await speakText("what name should i set the alarm");
                 animationupdate(true);
                 let alarmName = await takeInput();
@@ -108,7 +109,7 @@ async function setAlaram(userInput, opration, animationupdate, loadingupdate) {
                 }
                 break;
 
-            case "update_Alarm":
+            case "update Alarm":
                 const oldtime = time;
                 animationupdate(false);
                 await speakText("what should i you want to update");
@@ -223,7 +224,7 @@ async function setAlaram(userInput, opration, animationupdate, loadingupdate) {
                     await speakText(`your alarm is not update`);
                 }
                 break;
-            case "delete_Alarm":
+            case "delete Alarm":
                 var { data } = await axios.post(`${URL}/alarm/deletealarm`, { alarmTime: time[0], userid: localuser._id });
                 animationupdate(false);
                 if (data.data) {
@@ -232,7 +233,7 @@ async function setAlaram(userInput, opration, animationupdate, loadingupdate) {
                     await speakText(`your alarm is not found`);
                 }
                 break;
-            case "get_Alarm":
+            case "get Alarm":
                 // loadingupdate(false);
                 var { data } = await axios.post(`${URL}/alarm/alarm`, { alarmTime: time[0], userid: localuser._id });
                 animationupdate(false);
@@ -242,7 +243,7 @@ async function setAlaram(userInput, opration, animationupdate, loadingupdate) {
                     await speakText(`your alarm is not find`);
                 }
                 break
-            case "getAll_Alarm":
+            case "getAll Alarm":
                 await speakText("Wait your alarms fetch plz wait");
                 loadingupdate(true);
                 var { data } = await axios.post(`${URL}/alarm/getalarm`, { userid: localuser._id });
@@ -262,6 +263,7 @@ async function setAlaram(userInput, opration, animationupdate, loadingupdate) {
                 await speakText("Sorry, I don't know much more about that, but with time I am updating myself");
                 break;
         }
+        return true;
     } catch (err) {
         console.log(err)
         await speakText("Somting wrong with us")

@@ -27,6 +27,7 @@ import getDistance from './api/distanceApi';
 import mapNavigate from './api/mapApi';
 import setAlaram from './api/setAlaram';
 const VoiceAssistant = () => {
+    const localuser = JSON.parse(localStorage.getItem('user'));
     const { state, loading, updateloadingValue, updateSpeakValue } = useContext(stateContext);
     const [iframeVisible, setIframeVisible] = useState(false);
     const [michidden, setMichidden] = useState(true);
@@ -39,6 +40,7 @@ const VoiceAssistant = () => {
     const [musicIndex, setMusicIndex] = useState(0);
     const [alarmRing, setAlarmRing] = useState(false);
     const [alardetail, setAlarmDeatil] = useState({});
+    const [load, setLoad] = useState(false);
     const navigate = useNavigate();
     const commands = {
         'Good morning *name': () => speak('Hy Boss Good morning'),
@@ -65,7 +67,7 @@ const VoiceAssistant = () => {
         axios.post(`${URL}/findfunction`, "Hello");
         axios.get('https://hindi-jokes-api.onrender.com/jokes?api_key=bd4c780c41c74b6af4ae1f31bc5d');
         getAllAlarm()
-    }, [])
+    }, [load])
     useEffect(() => {
         if (annyang) {
             if (listening) {
@@ -99,7 +101,7 @@ const VoiceAssistant = () => {
 
     }
     const getAllAlarm = async () => {
-        const localuser = JSON.parse(localStorage.getItem('user'));
+
         if (!localuser) {
             return;
         }
@@ -344,12 +346,14 @@ const VoiceAssistant = () => {
                 case "get_todolsit":
                     await todo(data.data, animationupdate, loadingupdate);
                     break;
-                case "set_Alarm":
-                case "update_Alarm":
-                case "delete_Alarm":
-                case "getAll_Alarm":
-                case "get_Alarm":
-                    await setAlaram(userInput, data.data, animationupdate, loadingupdate);
+                case "set Alarm":
+                case "update Alarm":
+                case "delete Alarm":
+                case "getAll Alarm":
+                case "get Alarm":
+                    console.log("Enter")
+                    const res = await setAlaram(userInput, data.data, animationupdate, loadingupdate);
+                    setLoad(res);
                     break;
                 case "Not_Category":
                     await speakText("Sorry, I don't know much more about that, but with time I am updating myself");
@@ -365,6 +369,7 @@ const VoiceAssistant = () => {
                 setAnayan(true)
             }
         } catch (err) {
+            console.log(err)
             return await speakText("Somting Wrong with me try again");
         }
     };
@@ -450,19 +455,23 @@ const VoiceAssistant = () => {
             await speakText("Something went wrong with the music playback.");
         }
     }
-    console.log(alardetail)
     return (
         <div className="main_container">
             <div className="w-full h-0 bg-opacity-75 bg-gray-800 absolute text-center flex items-center transition-all duration-500 justify-center z-10 overflow-hidden" style={{ height: alarmRing ? "100%" : "" }} >
                 <div className='flex items-center justify-around bg-white rounded-2xl relative'>
-                    <IoCloseCircleOutline className=' absolute top-4 right-4 text-2xl' onClick={() => setAlarmRing(false)} />
+                    <IoCloseCircleOutline className=' absolute top-4 right-4 text-2xl' onClick={async () => {
+                        setAlarmRing(false)
+                        await axios.post(`${URL}/alarm/deletealarm`, { alarmTime: alardetail.alarmTime, userid: localuser._id });
+                    }
+                    }
+                    />
                     <img className='w-1/3' src={alarmImage} alt="" />
                     <div className=' text-left'>
                         <h2 className='text-4xl font-bold'>{alardetail?.title || "SSS"}</h2>
                         <p className='text-xl font-semibold'>{alardetail?.alarmTime || "10:30 p.m"}</p>
                     </div>
                 </div>
-                {alarmRing ? <audio src={alarmTone} autoPlay></audio> : null}
+                {alarmRing ? <audio src="https://2u039f-a.akamaihd.net/downloads/ringtones/files/mp3/technocraj-20230730-0001-61126.mp3" autoPlay loop></audio> : null}
 
             </div>
             {michidden ?

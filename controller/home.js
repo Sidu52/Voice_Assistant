@@ -50,11 +50,11 @@ const manager = new NlpManager({ languages: ['en'], forceNER: true });
 // manager.addAnswer('en', 'getAll_todolsit', 'getAll_todolsit');
 // manager.addAnswer('en', 'Stop', 'Stop');
 // manager.addAnswer('en', 'jarvise_work', 'jarvise_work');
-// manager.addAnswer('en', 'set_Alarm', 'set_Alarm');
-// manager.addAnswer('en', 'update_Alarm', 'update_Alarm');
-// manager.addAnswer('en', 'delete_Alarm', 'delete_Alarm');
-// manager.addAnswer('en', 'get_Alarm', 'get_Alarm');
-// manager.addAnswer('en', 'getAll_Alarm', 'getAll_Alarm');
+// manager.addAnswer('en', 'set Alarm', 'set Alarm');
+// manager.addAnswer('en', 'update Alarm', 'update Alarm');
+// manager.addAnswer('en', 'delete Alarm', 'delete Alarm');
+// manager.addAnswer('en', 'get Alarm', 'get Alarm');
+// manager.addAnswer('en', 'getAll Alarm', 'getAll Alarm');
 
 (async () => {
     await manager.load();
