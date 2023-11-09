@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const todoSchema = new mongoose.Schema({
+const alarmSchema = new mongoose.Schema({
     title: String,
-    completed: Boolean,
+    alarmTime: String,
     userid: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
@@ -11,6 +11,6 @@ const todoSchema = new mongoose.Schema({
     timestamps: true
 });
 
-const todo = mongoose.model('todo', todoSchema);
+const alarm = mongoose.model('alarm', alarmSchema);
 
-module.exports = todo;
+module.exports = alarm;

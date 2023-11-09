@@ -21,6 +21,7 @@ app.use(express.json());
 // Set routes
 app.use('/', require('./router'));
 app.use('/todo', require('./router/todo'));
+app.use('/alarm', require('./router/alarm'));
 
 //SetIp Exprees server
 app.listen(PORT, (error) => {

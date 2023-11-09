@@ -129,5 +129,4 @@ async function deleteTodo(req, res) {
     }
 }
 
-
 module.exports = { user, createTodo, getUserTodos, getTodoByNameandUserId, updateTodo, deleteTodo };
