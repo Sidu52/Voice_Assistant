@@ -6,9 +6,9 @@ import NoteState from './mycontext/noteState.jsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <NoteState>
-      <App />
-    </NoteState>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <NoteState>
+    <App />
+  </NoteState>
+  // </React.StrictMode>, 
 )

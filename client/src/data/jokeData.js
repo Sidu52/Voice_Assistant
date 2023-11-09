@@ -136,6 +136,10 @@ const FamilyInfo = [
     "FamilyInfo is my middle name, right after 'ChatBot.' But don't worry, I'm just as friendly as a family member!"
 ];
 
+const jarvise_work = [
+    "I am a voice assistant i have knowlege about country state city and famous personlity and also i play audio and video music for you according your taste and i tell about weather and population data and also i capble to perform todo list for you"
+];
+
 
 const getdata = async (name) => {
     let data = [];
@@ -143,13 +147,17 @@ const getdata = async (name) => {
         case "jokesData":
             data = jokesData;
             break;
+        case "jarvise_work":
+            data = jarvise_work;
+            break;
         case "Hello":
             data = Hello;
             break;
         case "Bye":
             data = Bye;
             break;
-        case "AboutYou":
+        case "Aboutyou":
+            console.log("Enter")
             data = AboutYou;
             break;
         case "love_jarvis":
@@ -178,6 +186,6 @@ const getdata = async (name) => {
 
 };
 
-export { jokesData, Hello, Bye, AboutYou, love_jarvis, hate_jarvis, SidhuAlston, Disturb, FamilyInfo };
+export { jokesData, Hello, Bye, AboutYou, love_jarvis, hate_jarvis, SidhuAlston, Disturb, FamilyInfo, jarvise_work };
 
 export default getdata;

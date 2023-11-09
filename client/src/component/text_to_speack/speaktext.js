@@ -3,6 +3,7 @@ const voiceName = 'Google हिन्दी';
 
 const speakText = (message, lang = 'en') => {
     return new Promise((resolve, reject) => {
+
         if ('speechSynthesis' in window) {
             const synthesis = window.speechSynthesis;
             const utterance = new SpeechSynthesisUtterance(message);
@@ -24,6 +25,9 @@ const speakText = (message, lang = 'en') => {
             };
 
             synthesis.speak(utterance);
+            console.log(message)
+
+
         } else {
             reject('Your browser does not support the Speech Synthesis API.');
         }
