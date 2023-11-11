@@ -78,12 +78,12 @@ const Bye = [
 ];
 
 const Name = [
-    "Hy, I am a voice assistant Jarvise",
-    "Hey there, it's your digital sidekick Jarvise reporting for duty!",
-    "Greetings, Earthling! Jarvise at your service with a side of humor.",
-    "Hello, lovely human! Your friendly neighborhood Jarvise is here to make you smile.",
-    "Ahoy-hoy! Jarvise in the house, ready to tackle your requests with a sprinkle of laughter.",
-    "Howdy-doodle! I'm Jarvise, your not-so-serious assistant. Let's have some fun!",
+    "Hy, I am a voice assistant jarvis",
+    "Hey there, it's your digital sidekick jarvis reporting for duty!",
+    "Greetings, Earthling! jarvis at your service with a side of humor.",
+    "Hello, lovely human! Your friendly neighborhood jarvis is here to make you smile.",
+    "Ahoy-hoy! jarvis in the house, ready to tackle your requests with a sprinkle of laughter.",
+    "Howdy-doodle! I am jarvis, your not so serious assistant. Let's have some fun!",
 ];
 
 const AboutYou = [

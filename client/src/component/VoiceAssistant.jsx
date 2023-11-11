@@ -27,8 +27,10 @@ import getDistance from './api/distanceApi';
 import mapNavigate from './api/mapApi';
 import setAlaram from './api/setAlaram';
 const VoiceAssistant = () => {
+    const audioRef = useRef(null);
     const localuser = JSON.parse(localStorage.getItem('user'));
     const { state, loading, updateloadingValue, updateSpeakValue } = useContext(stateContext);
+    const [volume, setVolume] = useState(100);
     const [iframeVisible, setIframeVisible] = useState(false);
     const [michidden, setMichidden] = useState(true);
     const [listening, setListening] = useState(false);
@@ -63,7 +65,8 @@ const VoiceAssistant = () => {
         'Distance': () => getDistance(),
     };
     useEffect(() => {
-        axios.post(`${URL}/findfunction`, "Hello");
+        const input = "Hello what is your name";
+        axios.post(`${URL}/findfunction`, { input });
         axios.get('https://hindi-jokes-api.onrender.com/jokes?api_key=bd4c780c41c74b6af4ae1f31bc5d');
         getAllAlarm()
     }, [load])
@@ -97,8 +100,8 @@ const VoiceAssistant = () => {
         setListening(false);
         updateSpeakValue(false)
         annyang.abort();
-
     }
+    //Set Alarms 
     const getAllAlarm = () => {
         if (!localuser) {
             return;
@@ -106,15 +109,12 @@ const VoiceAssistant = () => {
         axios.post(`${URL}/alarm/getalarm`, { userid: localuser._id })
             .then(response => {
                 const data = response.data?.data;
-
                 if (data && data.length > 0) {
                     const timeDifferences = [];
-
                     data.forEach((alarmData, index) => {
                         const givenTime = alarmData.alarmTime;
                         const [time, period] = givenTime.split(' ');
                         const [hours, minutes] = time.split(':');
-
                         const formattedGivenTime = new Date();
                         formattedGivenTime.setHours(
                             period.toLowerCase() === 'p.m.' ? parseInt(hours) + 12 : parseInt(hours),
@@ -122,17 +122,12 @@ const VoiceAssistant = () => {
                             0,
                             0
                         );
-
                         const currentTime = new Date();
                         let timeDifference = formattedGivenTime - currentTime;
-
                         if (timeDifference < 0) {
                             timeDifference += 24 * 60 * 60 * 1000; // 24 hours in milliseconds
                         }
-
                         timeDifferences.push(timeDifference);
-
-                        console.log("SET TIME OUT");
                         setTimeout(() => {
                             // Assuming setAlarmRing and setAlarmDeatil are functions
                             setAlarmRing(true);
@@ -215,57 +210,6 @@ const VoiceAssistant = () => {
         setListening(true)
         setAnayan(true);
         updateSpeakValue(false);
-    }
-    const takeInput = () => {
-        return new Promise((resolve, reject) => {
-            const recognition = new webkitSpeechRecognition();
-            recognition.onresult = (event) => {
-                const output = event.results[0][0].transcript;
-                resolve(output); // Resolve the promise with the recognized text
-            };
-            recognition.onerror = (error) => {
-                resolve(null); // Reject the promise in case of an error
-            };
-            recognition.onend = () => {
-                // If onresult is not called before onend, consider it an error
-                resolve(null);
-            };
-            recognition.start();
-        });
-    };
-    const takeinputcmd = async () => {
-        annyang.abort();
-        setSecoundMic(true);
-        // setMichidden(true);
-        const cmd = await takeInput();
-        if (!cmd) {
-            setMichidden(false);
-            setListening(false);
-            setAnayan(false);
-            updateSpeakValue(false);
-        }
-        const sanitizedInput = cmd.split(' ');
-        // Check for keywords
-        const prevSong = sanitizedInput.some(word => ['back', 'old', 'previous'].includes(word.toLowerCase()));
-        const nextSong = sanitizedInput.some(word => ['next', 'new', 'another', 'change'].includes(word.toLowerCase()));
-        if (prevSong) {
-            if (musicIndex == 0) {
-                setMusicIndex(musicArray.length - 1);
-
-            } else {
-                setMusicIndex(musicIndex - 1);
-            }
-            playNextSong(musicArray); // Use playNextSong instead of playMusic
-        } else if (nextSong) {
-            if (musicIndex == musicArray.length - 1) {
-                setMusicIndex(0);
-            } else {
-                setMusicIndex(musicIndex + 1);
-            }
-            playNextSong(musicArray); // Use playNextSong instead of playMusic
-        } else {
-            handleYouTube(cmd)
-        }
     }
     //Speaking precomman
     const speak = async (message) => {
@@ -476,6 +420,78 @@ const VoiceAssistant = () => {
             await speakText("Something went wrong. Please try again.");
         }
     }
+
+    const takeInput = () => {
+        return new Promise((resolve, reject) => {
+            const recognition = new webkitSpeechRecognition();
+            recognition.onresult = (event) => {
+                const output = event.results[0][0].transcript;
+                resolve(output); // Resolve the promise with the recognized text
+            };
+            recognition.onerror = (error) => {
+                resolve(null); // Reject the promise in case of an error
+            };
+            recognition.onend = () => {
+                // If onresult is not called before onend, consider it an error
+                resolve(null);
+            };
+            recognition.start();
+        });
+    };
+    // handle music controll
+    const takeinputcmd = async () => {
+        annyang.abort();
+        setSecoundMic(true);
+        // setMichidden(true);
+        const cmd = await takeInput();
+        if (!cmd) {
+            setMichidden(false);
+            setListening(false);
+            setAnayan(false);
+            updateSpeakValue(false);
+        }
+        const sanitizedInput = cmd.split(' ');
+        // Check for keywords
+        const play = sanitizedInput.some(word => ['pause', 'stop'].includes(word.toLowerCase()));
+        const pause = sanitizedInput.some(word => ['play', 'continue', 'start'].includes(word.toLowerCase()));
+        const prevSong = sanitizedInput.some(word => ['back', 'old', 'previous'].includes(word.toLowerCase()));
+        const nextSong = sanitizedInput.some(word => ['next', 'new', 'another', 'change'].includes(word.toLowerCase()));
+        const volume = sanitizedInput.some(word => ['sound', 'voice', 'volume'].includes(word.toLowerCase()));
+        if (play) {
+            audioRef.current.pause();
+        } else if (pause) {
+            audioRef.current.play();
+        } else if (prevSong) {
+            if (musicIndex == 0) {
+                setMusicIndex(musicArray.length - 1);
+
+            } else {
+                setMusicIndex(musicIndex - 1);
+            }
+            playNextSong(musicArray); // Use playNextSong instead of playMusic
+        } else if (nextSong) {
+            if (musicIndex == musicArray.length - 1) {
+                setMusicIndex(0);
+            } else {
+                setMusicIndex(musicIndex + 1);
+            }
+            playNextSong(musicArray); // Use playNextSong instead of playMusic
+        } else if (volume) {
+            const regex = /\d+(\.\d+)?/g;
+            const percentage = cmd.match(regex);
+            console.log(percentage)
+            handleVolumeChange(percentage);
+        }
+        else {
+            handleYouTube(cmd)
+        }
+    }
+    //Handle music voice
+    const handleVolumeChange = (newVolume) => {
+        const cVolume = Math.max(0, Math.min(100, newVolume));
+        setVolume(cVolume);
+        audioRef.current.volume = cVolume / 100;
+    };
     async function playNextSong(musicData) {
         try {
             if (musicIndex < musicData.length) {
@@ -541,7 +557,7 @@ const VoiceAssistant = () => {
                                 transition-duration: 300ms;
                                 }" />
                         </div>
-                        <span className='text-white absolute text-center'>MUSIC CONTROL NEXT/PREV</span>
+                        <span className='text-white absolute text-center'>MUSIC CONTROL</span>
                     </div> : ""}
 
                     {/* Close */}
@@ -572,7 +588,15 @@ const VoiceAssistant = () => {
                         </div>
                     ) : <div className="audio">
                         <div className='flex items-center justify-center relative h-screen'>
-                            <audio id='musicPlayer' className='audio_controller absolute bottom-0 w-full' src={musicURL} autoPlay controls ></audio>
+                            <audio id='musicPlayer' className='audio_controller absolute bottom-0 w-full' src={musicURL} onPlay={true} volume={volume / 100} ref={audioRef} onEnded={() => {
+                                console.log("ENter")
+                                if (musicIndex == musicArray.length - 1) {
+                                    setMusicIndex(0);
+                                } else {
+                                    setMusicIndex(musicIndex + 1);
+                                }
+                                playNextSong(musicArray); // Use playNextSong instead of playMusic
+                            }} autoPlay controls ></audio>
                             <img className='img_audio_container w-screen' src={audiogif} alt="" />
                         </div>
                     </div>}
