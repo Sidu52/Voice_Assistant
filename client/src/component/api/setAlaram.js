@@ -35,6 +35,7 @@ async function setAlaram(userInput, opration, animationupdate, loadingupdate) {
             time = Atime.match(timeRegex);
             i = 0;
             while (!time && i < 5) {
+                console.log(Atime)
                 await speakText("Sorry time not found try again");
                 i++;
                 Atime = await takeInput();

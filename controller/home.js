@@ -55,6 +55,7 @@ const manager = new NlpManager({ languages: ['en'], forceNER: true });
 // manager.addAnswer('en', 'delete Alarm', 'delete Alarm');
 // manager.addAnswer('en', 'get Alarm', 'get Alarm');
 // manager.addAnswer('en', 'getAll Alarm', 'getAll Alarm');
+// manager.addAnswer('en', 'name', 'name');
 
 (async () => {
     await manager.load();

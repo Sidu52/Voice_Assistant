@@ -77,6 +77,15 @@ const Bye = [
     "Goodbye, have a great day!",
 ];
 
+const Name = [
+    "Hy, I am a voice assistant Jarvise",
+    "Hey there, it's your digital sidekick Jarvise reporting for duty!",
+    "Greetings, Earthling! Jarvise at your service with a side of humor.",
+    "Hello, lovely human! Your friendly neighborhood Jarvise is here to make you smile.",
+    "Ahoy-hoy! Jarvise in the house, ready to tackle your requests with a sprinkle of laughter.",
+    "Howdy-doodle! I'm Jarvise, your not-so-serious assistant. Let's have some fun!",
+];
+
 const AboutYou = [
     "I'm just a computer program here to assist you.and I am always ready for you any condition",
     "I'm an AI created to provide information and help with tasks.",
@@ -146,6 +155,9 @@ const getdata = async (name) => {
     switch (name) {
         case "jokesData":
             data = jokesData;
+            break;
+        case "name":
+            data = Name;
             break;
         case "jarvise_work":
             data = jarvise_work;

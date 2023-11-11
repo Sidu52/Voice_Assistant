@@ -51,9 +51,8 @@ const VoiceAssistant = () => {
         'Good evening': () => speak('Hy Boss Good evening'),
         'Goodbye *name': () => speak('Goodbye, have a great day!'),
         'Goodbye': () => speak('Goodbye, have a great day!'),
-        'What is your name': () => speak('My name is Jarvis', updateloadingValue),
         'Tell me about yourself': () => speak('I am a voice assistant Sidhu Alston created me. if you want to know more about sidhu alston say Sidhu Alston Resume'),
-        'Tell me about you': () => speak('I am a voice assistant Sidhu Alston created me.  if you want to know more about sidhu alston say Sidhu Alston Resume'),
+        'Tell me about you': () => speak('I am a voice assistant Sidhu Alston created me. if you want to know more about sidhu alston say Sidhu Alston Resume'),
         'Who are you': () => speak('I am a voice assistant Sidhu Alston created me.'),
         'Who created you': () => speak('Sidhu Alston created me.'),
         'I am sad': () => speak("Sorry Boss, But why are you sad I have a some joke for you or you listen Dinchak Pooja Song"),
@@ -100,51 +99,103 @@ const VoiceAssistant = () => {
         annyang.abort();
 
     }
-    const getAllAlarm = async () => {
-
+    const getAllAlarm = () => {
         if (!localuser) {
             return;
         }
-        const { data } = await axios.post(`${URL}/alarm/getalarm`, { userid: localuser._id });
-        const alarmData = data.data;
-        if (alarmData.length === 0) {
-            return;
-        }
-        const timeDifferences = [];
+        axios.post(`${URL}/alarm/getalarm`, { userid: localuser._id })
+            .then(response => {
+                const data = response.data?.data;
 
-        for (let i = 0; i < alarmData.length; i++) {
-            const givenTime = alarmData[i].alarmTime;
-            const [time, period] = givenTime.split(' ');
-            const [hours, minutes] = time.split(':');
-            // Convert to 24-hour format
-            const formattedGivenTime = new Date();
-            formattedGivenTime.setHours(
-                period.toLowerCase() === 'p.m.' ? parseInt(hours) + 12 : parseInt(hours),
-                parseInt(minutes),
-                0,
-                0
-            );
-            // Get the current time
-            const currentTime = new Date();
-            // Calculate the time difference in milliseconds
-            let timeDifference = formattedGivenTime - currentTime;
-            // If the time difference is negative, add 24 hours
-            if (timeDifference < 0) {
-                timeDifference += 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-            }
-            // Store the time difference in the array
-            timeDifferences.push(timeDifference);
+                if (data && data.length > 0) {
+                    const timeDifferences = [];
 
-            setTimeout(() => {
-                // Assuming setAlarmRing and setAlarmDeatil are functions
-                setAlarmRing(true);
-                setAlarmDeatil(alarmData[i]);
-            }, timeDifference);
-        }
+                    data.forEach((alarmData, index) => {
+                        const givenTime = alarmData.alarmTime;
+                        const [time, period] = givenTime.split(' ');
+                        const [hours, minutes] = time.split(':');
 
-        // If you need to use the time differences array elsewhere, you can return it or perform further actions.
-        return timeDifferences;
+                        const formattedGivenTime = new Date();
+                        formattedGivenTime.setHours(
+                            period.toLowerCase() === 'p.m.' ? parseInt(hours) + 12 : parseInt(hours),
+                            parseInt(minutes),
+                            0,
+                            0
+                        );
+
+                        const currentTime = new Date();
+                        let timeDifference = formattedGivenTime - currentTime;
+
+                        if (timeDifference < 0) {
+                            timeDifference += 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+                        }
+
+                        timeDifferences.push(timeDifference);
+
+                        console.log("SET TIME OUT");
+                        setTimeout(() => {
+                            // Assuming setAlarmRing and setAlarmDeatil are functions
+                            setAlarmRing(true);
+                            setAlarmDeatil(alarmData);
+                        }, timeDifference);
+                    });
+
+                    return timeDifferences;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching alarm data:', error);
+            });
     };
+
+    //     if (!localuser) {
+    //         return;
+    //     }
+    //     const { data } =await axios.post(`${URL}/alarm/getalarm`, { userid: localuser._id });
+    //     if (data?.data) {
+    //         const alarmData = data.data;
+    //         if (alarmData.length === 0) {
+    //             return;
+    //         }
+    //         const timeDifferences = [];
+
+    //         for (let i = 0; i < alarmData.length; i++) {
+    //             const givenTime = alarmData[i].alarmTime;
+    //             const [time, period] = givenTime.split(' ');
+    //             const [hours, minutes] = time.split(':');
+    //             // Convert to 24-hour format
+    //             const formattedGivenTime = new Date();
+    //             formattedGivenTime.setHours(
+    //                 period.toLowerCase() === 'p.m.' ? parseInt(hours) + 12 : parseInt(hours),
+    //                 parseInt(minutes),
+    //                 0,
+    //                 0
+    //             );
+    //             // Get the current time
+    //             const currentTime = new Date();
+    //             // Calculate the time difference in milliseconds
+    //             let timeDifference = formattedGivenTime - currentTime;
+    //             // If the time difference is negative, add 24 hours
+    //             if (timeDifference < 0) {
+    //                 timeDifference += 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+    //             }
+    //             // Store the time difference in the array
+    //             timeDifferences.push(timeDifference);
+
+    //             console.log("SET TIME OUT")
+    //             setTimeout(() => {
+    //                 // Assuming setAlarmRing and setAlarmDeatil are functions
+    //                 setAlarmRing(true);
+    //                 setAlarmDeatil(alarmData[i]);
+    //             }, timeDifference);
+    //         }
+    //         return timeDifferences;
+
+    //     }
+
+    //     // If you need to use the time differences array elsewhere, you can return it or perform further actions.
+
+    // };
 
     //function for speaking
     const animationupdate = async (value) => {
@@ -229,7 +280,6 @@ const VoiceAssistant = () => {
         setAnayan(true);
         return
     }
-
     //Resume
     const openResume = () => {
         window.open("https://drive.google.com/drive/folders/15tL9LlhsKSaBF7wdssxFhJ42dB3Hy8bB?usp=sharing", "_blank");
@@ -240,7 +290,6 @@ const VoiceAssistant = () => {
         setListening(false)
         setAnayan(false);
         setIframeVisible(false);
-
     };
 
     const handleClick = async () => {
@@ -255,7 +304,7 @@ const VoiceAssistant = () => {
         });
     };
 
-    const openWebsite =async (name) => {
+    const openWebsite = async (name) => {
         // Make sure the name is in a valid format (e.g., without spaces and special characters)
         const sanitizedName = name.replace(/\s/g, '');
         if (sanitizedName) {
@@ -272,7 +321,6 @@ const VoiceAssistant = () => {
             annyang.abort();
             setListening(false);
             setAnayan(false)
-
             const { data } = await axios.post(`${URL}/findfunction`, { userInput });
             if (data) {
                 updateloadingValue(false);
@@ -280,6 +328,7 @@ const VoiceAssistant = () => {
             }
             switch (data.data) {
                 case "Hello":
+                case "name":
                 case "Bye":
                 case "disturb":
                 case "jarvise_work":
@@ -293,7 +342,7 @@ const VoiceAssistant = () => {
                 case "about_us":
                     await speakText("It is credential information.");
                     await speakText("I have not authenticated for sharing my credential information with anyone.");
-                    await speakText("But I am created using MERN technology React.js, Node.js, Express.js, and Mongoose for storing data for updating myself");
+                    await speakText("But I am created using mern technology React.js, Node.js, Express.js, and Mongoose for storing data for updating myself");
                     break;
                 case "date":
                 case "time":
@@ -354,6 +403,7 @@ const VoiceAssistant = () => {
                     handlemicshow(true)
                     break;
                 default:
+                    handlemicshow(true)
                     break;
             }
             if (data.data != "Stop" && data.data != "play_youtube") {
@@ -375,7 +425,6 @@ const VoiceAssistant = () => {
         updateloadingValue(true);
         try {
             const { data } = await axios.get('https://hindi-jokes-api.onrender.com/jokes?api_key=bd4c780c41c74b6af4ae1f31bc5d');
-
             if (data) {
                 updateloadingValue(false);
                 updateSpeakValue(true);
@@ -411,7 +460,6 @@ const VoiceAssistant = () => {
                 setIframeVisible(true);
                 setVideoURL(`https://www.youtube.com/embed/${videoData}?autoplay=1`);
             }
-
             else {
                 setIframeVisible(false)
                 setMichidden(false);
