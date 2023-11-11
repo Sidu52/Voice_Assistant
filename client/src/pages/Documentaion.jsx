@@ -14,9 +14,6 @@ import { MdOutlineRoundaboutRight } from 'react-icons/md';
 import { TbBrandFunimation, TbDeviceGamePad, TbLanguage } from 'react-icons/tb';
 import { CiTimer } from 'react-icons/ci';
 
-
-// Universal
-import { scroll } from "framer-motion/dom"
 export default function Documentaion() {
     const navigate = useNavigate();
     const [scrollY, setScrollY] = useState(0);
