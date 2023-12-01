@@ -26,6 +26,7 @@ import getdata from '../data/jokeData';
 import getDistance from './api/distanceApi';
 import mapNavigate from './api/mapApi';
 import setAlaram from './api/setAlaram';
+import { getRasaResponse } from './api/ConversionApi';
 const VoiceAssistant = () => {
     const audioRef = useRef(null);
     const localuser = JSON.parse(localStorage.getItem('user'));
@@ -47,12 +48,16 @@ const VoiceAssistant = () => {
     const commands = {
         'Good morning *name': () => speak('Hy Boss Good morning'),
         'Good morning': () => speak('Hy Boss Good morning'),
+        '*name Good morning': () => speak('Hy Boss Good morning'),
         'Good afternoon *name': () => speak('Hy Boss Good afternoon'),
         'Good afternoon': () => speak('Hy Boss Good afternoon'),
+        '*name Good afternoon': () => speak('Hy Boss Good afternoon'),
         'Good evening *name': () => speak('Hy Boss Good evening'),
         'Good evening': () => speak('Hy Boss Good evening'),
+        '*name Good evening': () => speak('Hy Boss Good evening'),
         'Goodbye *name': () => speak('Goodbye, have a great day!'),
         'Goodbye': () => speak('Goodbye, have a great day!'),
+        '*name Goodbye': () => speak('Goodbye, have a great day!'),
         'Tell me about yourself': () => speak('I am a voice assistant Sidhu Alston created me. if you want to know more about sidhu alston say Sidhu Alston Resume'),
         'Tell me about you': () => speak('I am a voice assistant Sidhu Alston created me. if you want to know more about sidhu alston say Sidhu Alston Resume'),
         'Who are you': () => speak('I am a voice assistant Sidhu Alston created me.'),
